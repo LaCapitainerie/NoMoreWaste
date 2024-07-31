@@ -1,0 +1,61 @@
+version: '3.8'
+
+networks:
+  nmw-network:
+    driver: bridge
+
+services:
+
+  nmw-front:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    container_name: nmw-front
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:8080/api"
+    depends_on:
+      - no-more-waste-bdd
+    networks:
+      - nmw-network
+
+  php-apache:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    container_name: php-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - no-more-waste-bdd
+    networks:
+      - nmw-network
+
+  no-more-waste-bdd:
+    image: postgres:latest
+    build:
+      context: bdd
+      dockerfile: dockerfile
+    container_name: no-more-waste-bdd
+    environment:
+      POSTGRES_DB: nomorewaste
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: "root"
+    volumes:
+      - nmw-postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - nmw-network
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d nomorewaste"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  nmw-postgres-data:
