@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { CheckIcon } from "@radix-ui/react-icons";
+import { abos, ResponseT } from "@/type/Abonnement";
 import { motion } from "framer-motion";
-import { Loader } from "lucide-react";
+import { CheckIcon, Loader } from "lucide-react";
 import { useState } from "react";
 
 type Interval = "month" | "year";
@@ -13,72 +13,9 @@ type Interval = "month" | "year";
 export const toHumanPrice = (price: number, decimals: number = 2) => {
   return Number(price / 100).toFixed(decimals);
 };
-const demoPrices = [
-  {
-    id: "price_1",
-    name: "Basic",
-    description: "A basic plan for startups and individual users",
-    features: [
-      "AI-powered analytics",
-      "Basic support",
-      "5 projects limit",
-      "Access to basic AI tools",
-    ],
-    monthlyPrice: 1000,
-    yearlyPrice: 10000,
-    isMostPopular: false,
-  },
-  {
-    id: "price_2",
-    name: "Premium",
-    description: "A premium plan for growing businesses",
-    features: [
-      "Advanced AI insights",
-      "Priority support",
-      "Unlimited projects",
-      "Access to all AI tools",
-      "Custom integrations",
-    ],
-    monthlyPrice: 2000,
-    yearlyPrice: 20000,
-    isMostPopular: true,
-  },
-  {
-    id: "price_5",
-    name: "Enterprise",
-    description:
-      "An enterprise plan with advanced features for large organizations",
-    features: [
-      "Custom AI solutions",
-      "24/7 dedicated support",
-      "Unlimited projects",
-      "Access to all AI tools",
-      "Custom integrations",
-      "Data security and compliance",
-    ],
-    monthlyPrice: 5000,
-    yearlyPrice: 50000,
-    isMostPopular: false,
-  },
-  {
-    id: "price_6",
-    name: "Ultimate",
-    description: "The ultimate plan with all features for industry leaders",
-    features: [
-      "Bespoke AI development",
-      "White-glove support",
-      "Unlimited projects",
-      "Priority access to new AI tools",
-      "Custom integrations",
-      "Highest data security and compliance",
-    ],
-    monthlyPrice: 8000,
-    yearlyPrice: 80000,
-    isMostPopular: false,
-  },
-];
 
-export default function PricingSection() {
+// eslint-disable-next-line @next/next/no-async-client-component
+export default function PricingSection({ prices }: { prices: ResponseT }) {
   const [interval, setInterval] = useState<Interval>("month");
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState<string | null>(null);
@@ -91,6 +28,7 @@ export default function PricingSection() {
   };
 
   return (
+
     <section id="pricing">
       <div className="mx-auto flex max-w-screen-xl flex-col gap-8 px-4 py-14 md:px-8">
         <div className="mx-auto max-w-5xl text-center">
@@ -112,10 +50,9 @@ export default function PricingSection() {
         <div className="flex w-full items-center justify-center space-x-2">
           <Switch
             id="interval"
-            onCheckedChange={(checked) => {
+            onCheckedChange={(checked: boolean) => {
               setInterval(checked ? "year" : "month");
-            }}
-          />
+            } } />
           <span>Annual</span>
           <span className="inline-block whitespace-nowrap rounded-full bg-black px-2.5 py-1 text-[11px] font-semibold uppercase leading-5 tracking-wide text-white dark:bg-white dark:text-black">
             2 MONTHS FREE ✨
@@ -123,30 +60,29 @@ export default function PricingSection() {
         </div>
 
         <div className="mx-auto grid w-full justify-center sm:grid-cols-2 lg:grid-cols-4 flex-col gap-4">
-          {demoPrices.map((price, idx) => (
+          {abos.map((name, idx) => (
             <div
-              key={price.id}
+              key={name}
               className={cn(
                 "relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black dark:text-white overflow-hidden",
                 {
-                  "border-2 border-[var(--color-one)] dark:border-[var(--color-one)]":
-                    price.isMostPopular,
+                  "border-2 border-[var(--color-one)] dark:border-[var(--color-one)]": true, //price.isMostPopular,
                 }
               )}
             >
               <div className="flex items-center">
                 <div className="ml-4">
                   <h2 className="text-base font-semibold leading-7">
-                    {price.name}
+                    {name}
                   </h2>
                   <p className="h-12 text-sm leading-5 text-black/70 dark:text-white">
-                    {price.description}
+                    {prices.Perks[name].Description}
                   </p>
                 </div>
               </div>
 
               <motion.div
-                key={`${price.id}-${interval}`}
+                key={`${prices.Perks[name].Nom}-${interval}`}
                 initial="initial"
                 animate="animate"
                 variants={{
@@ -169,8 +105,8 @@ export default function PricingSection() {
                 <span className="text-4xl font-bold text-black dark:text-white">
                   $
                   {interval === "year"
-                    ? toHumanPrice(price.yearlyPrice, 0)
-                    : toHumanPrice(price.monthlyPrice, 0)}
+                    ? prices.Perks[name].PrixAn
+                    : prices.Perks[name].PrixMois}
                   <span className="text-xs"> / {interval}</span>
                 </span>
               </motion.div>
@@ -181,29 +117,29 @@ export default function PricingSection() {
                   "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2"
                 )}
                 disabled={isLoading}
-                onClick={() => void onSubscribeClick(price.id)}
+                onClick={() => void onSubscribeClick(prices.Perks[name].Nom)}
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                {(!isLoading || (isLoading && id !== price.id)) && (
+                {(!isLoading || (isLoading && id !== prices.Perks[name].Nom)) && (
                   <p>Subscribe</p>
                 )}
 
-                {isLoading && id === price.id && <p>Subscribing</p>}
-                {isLoading && id === price.id && (
+                {isLoading && id === prices.Perks[name].Nom && <p>Subscribing</p>}
+                {isLoading && id === prices.Perks[name].Nom && (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 )}
               </Button>
 
               <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              {price.features && price.features.length > 0 && (
+              {prices.Perks[name].Perks && prices.Perks[name].Perks.length > 0 && (
                 <ul className="flex flex-col gap-2 font-normal">
-                  {price.features.map((feature: any, idx: any) => (
+                  {prices.Perks[name].Perks.map((feature, idx: any) => (
                     <li
                       key={idx}
                       className="flex items-center gap-3 text-xs font-medium text-black dark:text-white"
                     >
                       <CheckIcon className="h-5 w-5 shrink-0 rounded-full bg-green-400 p-[2px] text-black dark:text-white" />
-                      <span className="flex">{feature}</span>
+                      <span className="flex">{feature.Nom}</span>
                     </li>
                   ))}
                 </ul>
@@ -213,5 +149,6 @@ export default function PricingSection() {
         </div>
       </div>
     </section>
+
   );
 }
