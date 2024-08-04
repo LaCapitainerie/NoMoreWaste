@@ -1,28 +1,25 @@
+# File: docker-compose.yml
+
 version: '3.8'
 
-networks:
-  nmw-network:
-    driver: bridge
-
 services:
-
-  nmw-front:
-    build:
-      context: front
-      dockerfile: Dockerfile
-    container_name: nmw-front
-    ports:
-      - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: "http://localhost:8080/api"
-    depends_on:
-      - no-more-waste-bdd
-    networks:
-      - nmw-network
+  # nmw-front:
+  #   build:
+  #     context: front
+  #     dockerfile: Dockerfile
+  #   container_name: nmw-front
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: "http://localhost:8080/api"
+  #   depends_on:
+  #     - no-more-waste-bdd
+  #   networks:
+  #     - nmw-network
 
   php-apache:
     build:
-      context: api
+      context: php
       dockerfile: Dockerfile
     container_name: php-apache
     ports:
@@ -36,9 +33,6 @@ services:
 
   no-more-waste-bdd:
     image: postgres:latest
-    build:
-      context: bdd
-      dockerfile: dockerfile
     container_name: no-more-waste-bdd
     environment:
       POSTGRES_DB: nomorewaste
@@ -59,3 +53,6 @@ services:
 
 volumes:
   nmw-postgres-data:
+
+networks:
+  nmw-network:

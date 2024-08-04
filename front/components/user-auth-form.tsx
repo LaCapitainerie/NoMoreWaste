@@ -1,15 +1,7 @@
 "use client";
 
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  FormLabel,
-  FormDescription,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,26 +32,17 @@ export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & 
     setIsLoading(true);
 
     try{
-      // const response: {success: boolean, token: string} = await (await fetch(`http://localhost/${mode}`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   mode: 'no-cors',
-      //   body: JSON.stringify(data)
-      // })).json();
-
-      const response = await fetch(`http://localhost/${mode}`, {
+      const response: {success: boolean, token: string} = await (await fetch(`http://localhost:1000/${mode}.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         mode: 'no-cors',
-        body: JSON.stringify(data)
-      })
-
-      console.log(response);
-      
+        body: JSON.stringify({
+          email: "hugo.antreassian@gmail.com",
+          password: "Sianhu95#"
+        })
+      })).json();
       
 
     } catch (error) {
@@ -101,28 +84,7 @@ export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & 
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mot de passe</FormLabel>
-                  <FormControl>
-                    <Input
-                      id="password"
-                      placeholder="••••••••"
-                      type="password"
-                      autoComplete="current-password"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  {/* <FormDescription>This is your password.</FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
 
             <button
               type="submit"

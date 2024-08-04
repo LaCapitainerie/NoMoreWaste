@@ -17,19 +17,19 @@ class UserController {
 
     public function register($data) {
         $user = new User($this->db);
-        $user->username = $data['username'];
+        $user->username = $data['email'];
         $user->password = password_hash($data['password'], PASSWORD_BCRYPT);
 
         if ($user->register()) {
             return ['status' => 201, 'message' => 'User registered successfully'];
         } else {
-            return ['status' => 400, 'error' => 'Username already exists'];
+            return ['status' => 400, 'error' => 'Email already exists'];
         }
     }
 
     public function login($data) {
         $user = new User($this->db);
-        $user->username = $data['username'];
+        $user->username = $data['email'];
         $user->password = $data['password'];
 
         $userData = $user->login();
