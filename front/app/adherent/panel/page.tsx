@@ -10,11 +10,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { admin_panel_menuListValue } from "./layout";
+import { adherent_panel_menuListValue } from "./layout";
 
 export default function DashboardPage() {
   return (
-    <ContentLayout title="Dashboard" menuListValue={admin_panel_menuListValue}>
+    <ContentLayout title="Dashboard" menuListValue={adherent_panel_menuListValue}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

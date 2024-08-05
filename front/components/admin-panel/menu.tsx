@@ -5,7 +5,7 @@ import { Ellipsis, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { getMenuList } from "@/lib/menu-list";
+import { getMenuList, Group } from "@/lib/menu-list";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CollapseMenuButton } from "@/components/admin-panel/collapse-menu-button";
@@ -18,11 +18,13 @@ import {
 
 interface MenuProps {
   isOpen: boolean | undefined;
+  menuListValue: Group[];
 }
 
-export function Menu({ isOpen }: MenuProps) {
+export function Menu({ isOpen, menuListValue }: MenuProps) {
+
   const pathname = usePathname();
-  const menuList = getMenuList(pathname);
+  const menuList = getMenuList(pathname, menuListValue);
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">

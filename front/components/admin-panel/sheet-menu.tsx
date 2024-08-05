@@ -9,8 +9,9 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Group } from "@/lib/menu-list";
 
-export function SheetMenu() {
+export function SheetMenu({menuListValue}: {menuListValue: Group[]}) {
   return (
     <Sheet>
       <SheetTrigger className="lg:hidden" asChild>
@@ -31,7 +32,7 @@ export function SheetMenu() {
             </Link>
           </Button>
         </SheetHeader>
-        <Menu isOpen />
+        <Menu isOpen menuListValue={menuListValue}/>
       </SheetContent>
     </Sheet>
   );

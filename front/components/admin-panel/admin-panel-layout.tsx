@@ -5,11 +5,14 @@ import { useStore } from "@/hooks/use-store";
 import { Footer } from "@/components/admin-panel/footer";
 import { Sidebar } from "@/components/admin-panel/sidebar";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
+import { Group } from "@/lib/menu-list";
 
-export default function AdminPanelLayout({
-  children
+export default function PanelLayout({
+  children,
+  menuListValue
 }: {
   children: React.ReactNode;
+  menuListValue: Group[]
 }) {
   const sidebar = useStore(useSidebarToggle, (state) => state);
 
@@ -17,7 +20,7 @@ export default function AdminPanelLayout({
 
   return (
     <>
-      <Sidebar />
+      <Sidebar menuListValue={menuListValue}/>
       <main
         className={cn(
           "min-h-[calc(100vh_-_56px)] bg-zinc-50 dark:bg-zinc-900 transition-[margin-left] ease-in-out duration-300",

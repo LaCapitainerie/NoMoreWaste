@@ -8,14 +8,14 @@ const MyComponent = () => {
 
   useEffect(() => {
     // GET request
-    fetch('http://localhost:1000/locations.php')
+    fetch('http://localhost:1000/template.php')
       .then(response => response.json())
       .then(data => setGetData(data))
       .catch(error => console.error('Error with GET request:', error));
   }, []);
 
   const handlePostRequest = () => {
-    fetch('http://localhost:1000/locations.php', {
+    fetch('http://localhost:1000/template.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
