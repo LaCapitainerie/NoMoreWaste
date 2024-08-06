@@ -1,5 +1,5 @@
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "@/components/user-auth-form";
+import { LoginForm } from "@/components/login-form";
 import { cn } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
 import { Metadata } from "next";
@@ -33,7 +33,7 @@ export default function LoginPage() {
           </h1>
           <p className="text-sm text-muted-foreground">Connectez-vous à votre compte</p>
         </div>
-        <UserAuthForm mode={"login"} />
+        <LoginForm />
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href="/signup"

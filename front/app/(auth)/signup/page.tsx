@@ -1,5 +1,5 @@
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "@/components/user-auth-form";
+import { RegisterForm } from "@/components/register-form";
 import { cn } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
 import { Metadata } from "next";
@@ -35,7 +35,7 @@ export default function SignUpPage() {
             Créez un compte pour commencer
           </p>
         </div>
-        <UserAuthForm mode={"register"} />
+        <RegisterForm />
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href="/signin"

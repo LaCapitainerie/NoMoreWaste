@@ -23,7 +23,7 @@ type FormData = z.infer<typeof userAuthSchema>;
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & { mode: "login" | "register" }) {
+export function LoginForm({ className, ...props }: UserAuthFormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
     defaultValues: {
@@ -36,7 +36,7 @@ export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & 
     setIsLoading(true);
 
     try{
-      const response: {success: boolean, user: null | Adherent, error: null | string} = await (await fetch(`http://localhost:1000/${mode}.php`, {
+      const response: {success: boolean, user: null | Adherent, error: null | string} = await (await fetch(`http://localhost:1000/login.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -73,55 +73,13 @@ export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & 
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card className="mx-auto max-w-sm">
             <CardHeader>
-              <CardTitle className="text-xl">Sign Up</CardTitle>
+              <CardTitle className="text-xl">Connexion</CardTitle>
               <CardDescription>
-                Enter your information to create an account
+                Connectez-vous à votre compte
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name="firstname"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>First name</FormLabel>
-                          <FormControl>
-                            <Input
-                              id="first-name"
-                              placeholder="Max"
-                              required
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name="lastname"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Last name</FormLabel>
-                          <FormControl>
-                            <Input
-                              id="last-name"
-                              placeholder="Robinson"
-                              required
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
@@ -152,7 +110,7 @@ export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & 
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>Mot de passe</FormLabel>
                         <FormControl>
                           <Input
                             id="password"
@@ -168,14 +126,8 @@ export function UserAuthForm({ mode, className, ...props }: UserAuthFormProps & 
                   />
                 </div>
                 <Button type="submit" className="w-full">
-                  Créer un compte
+                  Se Connecter
                 </Button>
-              </div>
-              <div className="mt-4 text-center text-sm">
-                Vous avez déjà un compte ?{" "}
-                <Link href="#" className="underline">
-                  Connectez-vous
-                </Link>
               </div>
             </CardContent>
           </Card>
