@@ -1,16 +1,16 @@
-CREATE TABLE `Pays` (
+CREATE TABLE `nomorewaste`.`Pays` (
 	`Nom` VARCHAR(255) UNIQUE,
 	PRIMARY KEY(`Nom`)
 );
 
-CREATE TABLE `Ville` (
+CREATE TABLE `nomorewaste`.`Ville` (
 	`Pays` VARCHAR(255),
 	`Nom` VARCHAR(255) UNIQUE,
 	`Adresse` VARCHAR(255),
 	PRIMARY KEY(`Nom`)
 );
 
-CREATE TABLE `Entrepot` (
+CREATE TABLE `nomorewaste`.`Entrepot` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`ville` VARCHAR(255),
 	`latitude` FLOAT,
@@ -18,7 +18,7 @@ CREATE TABLE `Entrepot` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `Adherent` (
+CREATE TABLE `nomorewaste`.`Adherent` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Password` VARCHAR(255),
 	`Abonnement` VARCHAR(255),
@@ -31,7 +31,15 @@ CREATE TABLE `Adherent` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `Abonnement` (
+CREATE TABLE `nomorewaste`.`Commercant` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`Nom` VARCHAR(255) NOT NULL,
+	`Adresse` VARCHAR(255) NOT NULL,
+	`Referent` INT NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `nomorewaste`.`Abonnement` (
 	`Nom` VARCHAR(255) UNIQUE,
 	`PrixMois` INTEGER,
 	`PrixAn` INTEGER,
@@ -39,14 +47,14 @@ CREATE TABLE `Abonnement` (
 	PRIMARY KEY(`Nom`)
 );
 
-CREATE TABLE `Perks` (
+CREATE TABLE `nomorewaste`.`Perks` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Nom` VARCHAR(255),
 	`Abonnement` VARCHAR(255),
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `Stock` (
+CREATE TABLE `nomorewaste`.`Stock` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Ville` VARCHAR(255),
 	`Item` VARCHAR(255),
@@ -54,7 +62,7 @@ CREATE TABLE `Stock` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `Livraison` (
+CREATE TABLE `nomorewaste`.`Livraison` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Collecte` DATETIME,
 	`Ville` VARCHAR(255),
@@ -65,7 +73,7 @@ CREATE TABLE `Livraison` (
 );
 
 
-CREATE TABLE `Error` (
+CREATE TABLE `nomorewaste`.`Error` (
 	`id` INTEGER NOT NULL UNIQUE,
 	`Titre` VARCHAR(255),
 	`texte` VARCHAR(255),
@@ -73,7 +81,7 @@ CREATE TABLE `Error` (
 );
 
 
-CREATE TABLE `Ticket` (
+CREATE TABLE `nomorewaste`.`Ticket` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Titre` VARCHAR(255),
 	`Statut` VARCHAR(255),
@@ -84,6 +92,12 @@ CREATE TABLE `Ticket` (
 
 
 -- ADD VALUES TO TABLES
+
+INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Basic', 'Léon', 'Pupier', 'Léon@Pupier', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Standard', 'Samuel', 'BloomField', 'Samuel@BloomField', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Premium', 'Milan', 'Gerard', 'Milan@Gerard', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Lucas', 'Andre', 'Lucas@Andre', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Loïc', 'Andre', 'Loïc@Andre', 'Paris', 'Commercant');
 
 INSERT INTO `Pays` (`Nom`) VALUES ('France');
 INSERT INTO `Pays` (`Nom`) VALUES ('Allemagne');
@@ -98,6 +112,11 @@ INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Paris', 48.85
 INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Lyon', 45.75, 4.85);
 INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Berlin', 52.52, 13.405);
 INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Madrid', 40.4168, -3.7038);
+
+INSERT INTO `Commercant` (`Nom`, `Adresse`, `Referent`) VALUES ('Carrefour', '1 rue de la Paix', 1);
+INSERT INTO `Commercant` (`Nom`, `Adresse`, `Referent`) VALUES ('Auchan', '1 rue de la République', 2);
+INSERT INTO `Commercant` (`Nom`, `Adresse`, `Referent`) VALUES ('Leclerc', '1 rue de la Liberté', 3);
+INSERT INTO `Commercant` (`Nom`, `Adresse`, `Referent`) VALUES ('Intermarché', '1 rue de la Fraternité', 4);
 
 INSERT INTO `Abonnement` (`Nom`, `PrixMois`, `PrixAn`, `Description`) VALUES ('Basic', 5, 50, 'Basic Support');
 INSERT INTO `Abonnement` (`Nom`, `PrixMois`, `PrixAn`, `Description`) VALUES ('Standard', 10, 100, 'Livraison Standard');

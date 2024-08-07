@@ -1,7 +1,7 @@
 import { Perk } from "./Perks";
 
 export interface Abonnement {
-    Nom: string;
+    Nom: typeof abos[number];
     PrixMois: number;
     PrixAn: number;
     Description: string;

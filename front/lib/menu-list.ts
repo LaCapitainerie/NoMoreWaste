@@ -5,6 +5,7 @@ import {
   Map,
   PocketKnife,
   Search,
+  Store,
   Truck,
   User,
   UserCheck,
@@ -13,7 +14,7 @@ import {
 
 const NametoIcon = {
   "Home": Home,
-  "UserCheck": UserCheck,
+  "Store": Store,
   "Truck": Truck,
   "Box": Box,
   "Map": Map,

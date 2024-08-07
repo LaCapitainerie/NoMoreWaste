@@ -54,7 +54,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
 
       if(response.user && typeof window !== "undefined"){
         localStorage.setItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string, JSON.stringify(response.user))
-        location.href = "/adherent/panel";
+        location.href = "/adherent/panel/commercant";
       };
       
     } catch (error) {

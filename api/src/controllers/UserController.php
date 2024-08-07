@@ -17,7 +17,7 @@ class UserController {
 
     public function register($data) {
         $user = new User($this->db);
-        $user->username = $data['email'];
+        $user->username = $data['Mail'];
         $user->password = password_hash($data['password'], PASSWORD_BCRYPT);
 
         if ($user->register()) {
