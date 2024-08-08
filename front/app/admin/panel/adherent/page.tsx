@@ -105,7 +105,7 @@ export default async function DashboardPage() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/adherent/panel">Panel</Link>
+              <Link href="/admin/panel">Panel</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

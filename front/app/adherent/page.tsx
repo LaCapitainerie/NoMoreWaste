@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
-import { admin_panel_menuListValue } from "./layout";
+import { adherent_panel_menuListValue } from "./layout";
 import { Bento } from "@/components/admin-panel/bento";
-import { BellIcon, CalendarIcon, CircleDotDashed, GlobeIcon, User } from "lucide-react";
+import { User, CircleDotDashed, GlobeIcon, CalendarIcon, BellIcon } from "lucide-react";
 
 const features = [
   {
@@ -38,8 +38,8 @@ const features = [
   {
     Icon: CalendarIcon,
     name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
-    href: "/",
+    description: "Calendrier des collectes et distributions.",
+    href: "/adherent/panel/collecte",
     cta: "Learn more",
     background: <img className="absolute -right-20 -top-20 opacity-60" />,
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
@@ -56,11 +56,10 @@ const features = [
   },
 ];
 
-
 export default async function DashboardPage() {
 
   return (
-    <ContentLayout title="Dashboard" menuListValue={admin_panel_menuListValue}>
+    <ContentLayout title="Dashboard" menuListValue={adherent_panel_menuListValue}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

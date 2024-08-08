@@ -1,8 +1,5 @@
 import PanelLayout from "@/components/admin-panel/admin-panel-layout";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Group } from "@/lib/menu-list";
-import { Link } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
