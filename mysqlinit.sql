@@ -1,16 +1,18 @@
-CREATE TABLE `nomorewaste`.`Pays` (
+CREATE TABLE `Pays` (
 	`Nom` VARCHAR(255) UNIQUE,
 	PRIMARY KEY(`Nom`)
 );
 
-CREATE TABLE `nomorewaste`.`Ville` (
+
+CREATE TABLE `Ville` (
 	`Pays` VARCHAR(255),
 	`Nom` VARCHAR(255) UNIQUE,
 	`Adresse` VARCHAR(255),
 	PRIMARY KEY(`Nom`)
 );
 
-CREATE TABLE `nomorewaste`.`Entrepot` (
+
+CREATE TABLE `Entrepot` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`ville` VARCHAR(255),
 	`latitude` FLOAT,
@@ -18,11 +20,12 @@ CREATE TABLE `nomorewaste`.`Entrepot` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `nomorewaste`.`Adherent` (
+
+CREATE TABLE `Adherent` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Password` VARCHAR(255),
 	`Abonnement` VARCHAR(255),
-	`Prénom` VARCHAR(255),
+	`Prenom` VARCHAR(255),
 	`Nom` VARCHAR(255),
 	`Mail` VARCHAR(255),
 	`Ville` VARCHAR(255),
@@ -31,15 +34,17 @@ CREATE TABLE `nomorewaste`.`Adherent` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `nomorewaste`.`Commercant` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+
+CREATE TABLE `Commercant` (
+	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Nom` VARCHAR(255) NOT NULL,
 	`Adresse` VARCHAR(255) NOT NULL,
-	`Referent` INT NOT NULL,
-	PRIMARY KEY (`id`)
+	`Referent` INTEGER NOT NULL,
+	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `nomorewaste`.`Abonnement` (
+
+CREATE TABLE `Abonnement` (
 	`Nom` VARCHAR(255) UNIQUE,
 	`PrixMois` INTEGER,
 	`PrixAn` INTEGER,
@@ -47,33 +52,35 @@ CREATE TABLE `nomorewaste`.`Abonnement` (
 	PRIMARY KEY(`Nom`)
 );
 
-CREATE TABLE `nomorewaste`.`Perks` (
+
+CREATE TABLE `Perks` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Nom` VARCHAR(255),
 	`Abonnement` VARCHAR(255),
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `nomorewaste`.`Stock` (
+
+CREATE TABLE `Stock` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
-	`Ville` VARCHAR(255),
+	`Entrepot` INTEGER,
 	`Item` VARCHAR(255),
 	`Quantité` INTEGER,
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `nomorewaste`.`Livraison` (
+
+CREATE TABLE `Livraison` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Collecte` DATETIME,
-	`Ville` VARCHAR(255),
-	`Destination` VARCHAR(255),
+	`Entrepot` INTEGER,
 	`Statut` VARCHAR(255),
 	`Adresse` VARCHAR(255),
 	PRIMARY KEY(`id`)
 );
 
 
-CREATE TABLE `nomorewaste`.`Error` (
+CREATE TABLE `Error` (
 	`id` INTEGER NOT NULL UNIQUE,
 	`Titre` VARCHAR(255),
 	`texte` VARCHAR(255),
@@ -81,7 +88,7 @@ CREATE TABLE `nomorewaste`.`Error` (
 );
 
 
-CREATE TABLE `nomorewaste`.`Ticket` (
+CREATE TABLE `Ticket` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`Titre` VARCHAR(255),
 	`Statut` VARCHAR(255),
@@ -91,13 +98,29 @@ CREATE TABLE `nomorewaste`.`Ticket` (
 );
 
 
+CREATE TABLE `Palette` (
+	`id` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Livraison` INTEGER,
+	`Stock` INTEGER,
+	`Quantité` INTEGER,
+	PRIMARY KEY(`id`)
+);
+
+
 -- ADD VALUES TO TABLES
 
-INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Basic', 'Léon', 'Pupier', 'Léon@Pupier', 'Paris', 'Commercant');
-INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Standard', 'Samuel', 'BloomField', 'Samuel@BloomField', 'Paris', 'Commercant');
-INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Premium', 'Milan', 'Gerard', 'Milan@Gerard', 'Paris', 'Commercant');
-INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Lucas', 'Andre', 'Lucas@Andre', 'Paris', 'Commercant');
-INSERT INTO `Adherent` (Password, Abonnement, Prénom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Loïc', 'Andre', 'Loïc@Andre', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Basic', 'Mathis', 'Techer', 'Mathis@Techer', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Basic', 'Léon', 'Pupier', 'Léon@Pupier', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Standard', 'Zoe', 'Delaunay', 'Zoe@Delaunay', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Standard', 'Samuel', 'BloomField', 'Samuel@BloomField', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'Premium', 'Milan', 'Gerard', 'Milan@Gerard', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Lucas', 'Andre', 'Lucas@Andre', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Loïc', 'Andre', 'Loïc@Andre', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Tom', 'Lafont', 'Tom@Lafont', 'Paris', 'Commercant');	
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Léo', 'Lafont', 'Léo@Lafont', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'Jean Baptiste', 'Yung', 'Jeanbaptiste@yung', 'Paris', 'Commercant');
+INSERT INTO `Adherent` (Password, Abonnement, Prenom, Nom, Mail, Ville, Service) VALUES ("$2y$10$erbJwGY4mxWpmjCGyocpFOBE23PZ48lpxScxFZQRhblEg9Yepkuf2", 'VIP', 'hugo', 'antreassian', 'hugo.antreassian@gmail.com', 'Paris', 'Commercant');
+
 
 INSERT INTO `Pays` (`Nom`) VALUES ('France');
 INSERT INTO `Pays` (`Nom`) VALUES ('Allemagne');
@@ -128,23 +151,34 @@ INSERT INTO `Perks` (`Nom`, `Abonnement`) VALUES ('Livraison Standard', 'Standar
 INSERT INTO `Perks` (`Nom`, `Abonnement`) VALUES ('Livraison Premium', 'Premium');
 INSERT INTO `Perks` (`Nom`, `Abonnement`) VALUES ('Livraison VIP', 'VIP');
 
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (1, 'Pomme', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (1, 'Poire', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (1, 'Banane', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (1, 'Orange', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (2, 'Pomme', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (2, 'Poire', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (2, 'Banane', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (2, 'Orange', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (3, 'Pomme', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (3, 'Poire', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (3, 'Banane', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (3, 'Orange', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Pomme', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Poire', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Banane', 100);
+INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Orange', 100);
 
-INSERT INTO `Stock` (`Ville`, `Item`, `Quantité`) VALUES ('Paris', 'Pommes', 100);
-INSERT INTO `Stock` (`Ville`, `Item`, `Quantité`) VALUES ('Paris', 'Poires', 50);
-INSERT INTO `Stock` (`Ville`, `Item`, `Quantité`) VALUES ('Lyon', 'Pommes', 200);
+INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 1, 'En cours', '1 rue de la Paix');
+INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 2, 'En cours', '1 rue de la République');
+INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 3, 'En cours', '1 rue de la Liberté');
+INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 4, 'En cours', '1 rue de la Fraternité');
 
-
-INSERT INTO `Livraison` (`Collecte`, `Ville`, `Destination`, `Statut`, `Adresse`) VALUES ('2020-01-01 00:00:00', 'Paris', 'Lyon', 'En cours', '1 rue de la Paix');
-INSERT INTO `Livraison` (`Collecte`, `Ville`, `Destination`, `Statut`, `Adresse`) VALUES ('2020-01-01 00:00:00', 'Paris', 'Berlin', 'En cours', '1 rue de la Paix');
-INSERT INTO `Livraison` (`Collecte`, `Ville`, `Destination`, `Statut`, `Adresse`) VALUES ('2020-01-01 00:00:00', 'Paris', 'Madrid', 'En cours', '1 rue de la Paix');
-INSERT INTO `Livraison` (`Collecte`, `Ville`, `Destination`, `Statut`, `Adresse`) VALUES ('2020-01-01 00:00:00', 'Lyon', 'Paris', 'En cours', '1 rue de la République');
-INSERT INTO `Livraison` (`Collecte`, `Ville`, `Destination`, `Statut`, `Adresse`) VALUES ('2020-01-01 00:00:00', 'Lyon', 'Berlin', 'En cours', '1 rue de la République');
-INSERT INTO `Livraison` (`Collecte`, `Ville`, `Destination`, `Statut`, `Adresse`) VALUES ('2020-01-01 00:00:00', 'Lyon', 'Madrid', 'En cours', '1 rue de la République');
-
-INSERT INTO `Error` (`id`, `Titre`, `texte`) VALUES (1, 'Erreur 404', 'Page non trouvée');
-INSERT INTO `Error` (`id`, `Titre`, `texte`) VALUES (2, 'Erreur 500', 'Erreur interne');
+INSERT INTO `Error` (`id`, `Titre`, `texte`) VALUES (404, 'Erreur 404', 'Page non trouvée');
+INSERT INTO `Error` (`id`, `Titre`, `texte`) VALUES (500, 'Erreur 500', 'Erreur interne');
 
 INSERT INTO `Ticket` (`Titre`, `Statut`, `Tag`, `Priority`) VALUES ('Problème de connexion', 'En cours', 'Connexion', 'Moyenne');
 INSERT INTO `Ticket` (`Titre`, `Statut`, `Tag`, `Priority`) VALUES ('Problème de livraison', 'En cours', 'Livraison', 'Haute');
 INSERT INTO `Ticket` (`Titre`, `Statut`, `Tag`, `Priority`) VALUES ('Problème de paiement', 'En cours', 'Paiement', 'Basse');
-
+INSERT INTO `Ticket` (`Titre`, `Statut`, `Tag`, `Priority`) VALUES ('Problème de stock', 'En cours', 'Stock', 'Haute');
+INSERT INTO `Ticket` (`Titre`, `Statut`, `Tag`, `Priority`) VALUES ('Problème de service', 'En cours', 'Service', 'Moyenne');
+INSERT INTO `Ticket` (`Titre`, `Statut`, `Tag`, `Priority`) VALUES ('Problème de site', 'En cours', 'Site', 'Basse');

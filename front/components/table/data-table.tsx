@@ -38,17 +38,23 @@ interface DataTableProps<TData extends object, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     route: string
+    className?: string
+    rowPerPageDefault?: number
 }
 
 export function DataTable<TData extends object, TValue>({
     columns,
     data,
     route,
+    className,
+    rowPerPageDefault=10,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+    const [rowPerPage, setRowPerPage] = React.useState(rowPerPageDefault)
+    const [page, setPage] = React.useState(0)
     const table = useReactTable({
         data,
         columns,
@@ -65,11 +71,15 @@ export function DataTable<TData extends object, TValue>({
             columnFilters,
             columnVisibility,
             rowSelection,
+            pagination: {
+                pageIndex: page,
+                pageSize: rowPerPage,
+            },
         },
     })
 
     return (
-        <div>
+        <div className={className}>
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter emails..."
@@ -176,7 +186,7 @@ export function DataTable<TData extends object, TValue>({
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.previousPage()}
+                        onClick={() => setPage(page - 1)}
                         disabled={!table.getCanPreviousPage()}
                     >
                         Previous
@@ -184,7 +194,7 @@ export function DataTable<TData extends object, TValue>({
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.nextPage()}
+                        onClick={() => setPage(page + 1)}
                         disabled={!table.getCanNextPage()}
                     >
                         Next

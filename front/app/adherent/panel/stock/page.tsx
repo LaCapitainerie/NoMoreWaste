@@ -1,15 +1,7 @@
 import Link from "next/link";
 
-import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { adherent_panel_menuListValue } from "../../layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { AreaChartStacked } from "@/components/ui/chart/area-chart-stacked";
@@ -64,6 +56,7 @@ export default function DashboardPage() {
     { month: "Services de réparation", desktop: 209 },
     { month: "Services entre particuliers", desktop: 264 },
   ]
+  
   const RadarChartGridFilledConfig = {
     desktop: {
       label: "Services",

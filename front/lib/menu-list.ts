@@ -2,6 +2,7 @@ import {
   Bell,
   Box,
   Home,
+  LayoutPanelLeft,
   Map,
   PocketKnife,
   Search,
@@ -23,6 +24,7 @@ const NametoIcon = {
   "Search": Search,
   "Bell": Bell,
   "User": User,
+  "layout-panel-left": LayoutPanelLeft
 }
 
 type Submenu = {
