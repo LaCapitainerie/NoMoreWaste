@@ -11,7 +11,7 @@ try {
         default:
             echo jsonResponse(200, ["Content-Type: application/json"], [
                 "success" => true,
-                "Locations" => $res
+                "result" => $res
             ]);
             break;
     };
