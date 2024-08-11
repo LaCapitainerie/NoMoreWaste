@@ -2,13 +2,13 @@ import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { adherent_panel_menuListValue } from "../../layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { AreaChartStacked } from "@/components/ui/chart/area-chart-stacked";
 import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { RadarChartGridFilled } from "@/components/ui/chart/radar-chart-gridfilled";
 import { Services } from "@/type/Services";
+import { adherent_panel_menuListValue } from "@/type/Panel";
 
 export default function DashboardPage() {
 

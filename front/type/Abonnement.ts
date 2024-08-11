@@ -10,11 +10,6 @@ export interface Abonnement {
 
 export const abos = ["Standard", "Premium", "VIP"];
 
-type Perks = {
+export type Perks = {
     [key in typeof abos[number]]: Abonnement;
 };
-
-export interface ResponseT {
-    success: boolean;
-    Perks: Perks;
-}

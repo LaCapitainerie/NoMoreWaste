@@ -9,12 +9,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { Adherent, ResponseCustom } from "@/type/Adherent";
+import { Adherent } from "@/type/Adherent";
 import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { adherent_panel_menuListValue } from "../../layout";
 import { columns } from "./commercant-columns";
 import { Commercant } from "@/type/Commercant";
+import { ResponseCustom } from "@/type/Reponse";
+import { adherent_panel_menuListValue } from "@/type/Panel";
 
 async function getData(): Promise<Adherent[]> {
   // Fetch data from your API here.

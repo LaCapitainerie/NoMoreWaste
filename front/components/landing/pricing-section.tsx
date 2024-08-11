@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { abos, ResponseT } from "@/type/Abonnement";
+import { Abonnement, abos, Perks } from "@/type/Abonnement";
+import { Perk } from "@/type/Perks";
+import { ResponseCustom } from "@/type/Reponse";
 import { motion } from "framer-motion";
 import { CheckIcon, Loader } from "lucide-react";
 import { useState } from "react";
@@ -15,7 +17,7 @@ export const toHumanPrice = (price: number, decimals: number = 2) => {
 };
 
 // eslint-disable-next-line @next/next/no-async-client-component
-export default function PricingSection({ prices }: { prices: ResponseT }) {
+export default function PricingSection({ prices }: { prices: Abonnement[] }) {
   const [interval, setInterval] = useState<Interval>("month");
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState<string | null>(null);
@@ -60,9 +62,9 @@ export default function PricingSection({ prices }: { prices: ResponseT }) {
         </div>
 
         <div className="mx-auto grid w-full justify-center sm:grid-cols-2 lg:grid-cols-4 flex-col gap-4">
-          {abos.map((name, idx) => (
+          {prices.map((Abo, idx) => (
             <div
-              key={name}
+              key={idx}
               className={cn(
                 "relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black dark:text-white overflow-hidden",
                 {
@@ -73,16 +75,16 @@ export default function PricingSection({ prices }: { prices: ResponseT }) {
               <div className="flex items-center">
                 <div className="ml-4">
                   <h2 className="text-base font-semibold leading-7">
-                    {name}
+                    {Abo.Nom}
                   </h2>
                   <p className="h-12 text-sm leading-5 text-black/70 dark:text-white">
-                    {prices.Perks[name].Description}
+                    {Abo.Description}
                   </p>
                 </div>
               </div>
 
               <motion.div
-                key={`${prices.Perks[name].Nom}-${interval}`}
+                key={`${Abo.Nom}-${interval}`}
                 initial="initial"
                 animate="animate"
                 variants={{
@@ -105,8 +107,8 @@ export default function PricingSection({ prices }: { prices: ResponseT }) {
                 <span className="text-4xl font-bold text-black dark:text-white">
                   $
                   {interval === "year"
-                    ? prices.Perks[name].PrixAn
-                    : prices.Perks[name].PrixMois}
+                    ? Abo.PrixAn
+                    : Abo.PrixMois}
                   <span className="text-xs"> / {interval}</span>
                 </span>
               </motion.div>
@@ -117,23 +119,23 @@ export default function PricingSection({ prices }: { prices: ResponseT }) {
                   "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2"
                 )}
                 disabled={isLoading}
-                onClick={() => void onSubscribeClick(prices.Perks[name].Nom)}
+                onClick={() => void onSubscribeClick(Abo.Nom)}
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                {(!isLoading || (isLoading && id !== prices.Perks[name].Nom)) && (
+                {(!isLoading || (isLoading && id !== Abo.Nom)) && (
                   <p>Subscribe</p>
                 )}
 
-                {isLoading && id === prices.Perks[name].Nom && <p>Subscribing</p>}
-                {isLoading && id === prices.Perks[name].Nom && (
+                {isLoading && id === Abo.Nom && <p>Subscribing</p>}
+                {isLoading && id === Abo.Nom && (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 )}
               </Button>
 
               <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              {prices.Perks[name].Perks && prices.Perks[name].Perks.length > 0 && (
+              {Abo.Perks && Abo.Perks.length > 0 && (
                 <ul className="flex flex-col gap-2 font-normal">
-                  {prices.Perks[name].Perks.map((feature, idx: any) => (
+                  {Abo.Perks.map((feature, idx: any) => (
                     <li
                       key={idx}
                       className="flex items-center gap-3 text-xs font-medium text-black dark:text-white"

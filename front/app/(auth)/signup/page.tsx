@@ -39,7 +39,7 @@ export default function SignUpPage() {
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href="/signin"
-            className="hover:text-brand underline underline-offset-4"
+            className="hover:text-NoMoreWaste underline underline-offset-4"
           >
             Vous avez déjà un compte ? Connectez-vous
           </Link>

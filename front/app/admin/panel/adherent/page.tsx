@@ -2,14 +2,15 @@ import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Adherent, ResponseCustom } from "@/type/Adherent";
+import { Adherent } from "@/type/Adherent";
 import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { admin_panel_menuListValue } from "../layout";
 import { columns } from "./adherent-columns";
 import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { BarChartMixed } from "@/components/ui/chart/bar-chart-mixed";
+import { ResponseCustom } from "@/type/Reponse";
+import { admin_panel_menuListValue } from "@/type/Panel";
 
 async function getData(): Promise<Adherent[]> {
   // Fetch data from your API here.

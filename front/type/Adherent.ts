@@ -1,4 +1,4 @@
-import { Abonnement, abos } from "./Abonnement";
+import { Abonnement } from "./Abonnement";
 
 export type Adherent = {
     id: number
@@ -11,8 +11,3 @@ export type Adherent = {
     Service: string
     token: string
 };
-
-export interface ResponseCustom<T> {
-    success: boolean;
-    result: T[];
-}

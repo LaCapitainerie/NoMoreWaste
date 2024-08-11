@@ -41,7 +41,7 @@ export function Sidebar({menuListValue}: {menuListValue: Group[]}) {
                   : "translate-x-0 opacity-100"
               )}
             >
-              Brand
+              NoMoreWaste
             </h1>
           </Link>
         </Button>

@@ -1,13 +1,13 @@
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "@/components/user-auth-form";
+import { LoginForm } from "@/components/login-form";
 import { cn } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Login | No More Waste",
-  description: "Connexion à votre compte",
+  title: "Connexion | No More Waste",
+  description: "Connectez-vous à votre compte",
 };
 
 export default function LoginPage() {
@@ -35,11 +35,11 @@ export default function LoginPage() {
             Connectez-vous à votre compte
           </p>
         </div>
-        <UserAuthForm mode={"login"} />
+        <LoginForm/>
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href="/register"
-            className="hover:text-brand underline underline-offset-4"
+            className="hover:text-NoMoreWaste underline underline-offset-4"
           >
             Vous n&apos;avez pas de compte ? Créez-en un
           </Link>

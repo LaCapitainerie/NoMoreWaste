@@ -37,7 +37,7 @@ export default function LoginPage() {
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href="/signup"
-            className="hover:text-brand underline underline-offset-4"
+            className="hover:text-NoMoreWaste underline underline-offset-4"
           >
             Vous n&apos;avez pas de compte ? Créez-en un
           </Link>

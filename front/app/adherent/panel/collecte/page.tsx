@@ -2,20 +2,20 @@ import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { adherent_panel_menuListValue } from "../../layout";
 import { Card, CardContent } from "@/components/ui/card";
 import CollecteCalendar from "@/components/collecte/Calendar";
+import { adherent_panel_menuListValue } from "@/type/Panel";
 
 export default function DashboardPage() {
 
   const myEventsList = [
     {
-      title: 'Meeting',
+      title: 'Meeting #1',
       start: new Date(2024, 7, 12, 10, 0), // Year, Month (0-indexed), Day, Hours, Minutes
       end: new Date(2024, 7, 12, 12, 0),
     },
     {
-      title: 'Lunch Break',
+      title: 'Lunch Break #1',
       start: new Date(2024, 7, 12, 13, 0),
       end: new Date(2024, 7, 12, 14, 0),
     },

@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
-import { adherent_panel_menuListValue } from "./layout";
 import { Bento } from "@/components/admin-panel/bento";
 import { User, CircleDotDashed, GlobeIcon, CalendarIcon, BellIcon } from "lucide-react";
+import { adherent_panel_menuListValue } from "@/type/Panel";
 
 const features = [
   {

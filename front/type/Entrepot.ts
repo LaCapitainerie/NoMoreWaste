@@ -9,8 +9,3 @@ export interface Locations {
     latitude: number;
     longitude: number;
 }
-
-export interface ResponseLocations {
-    success: boolean;
-    Locations: Locations[];
-}
