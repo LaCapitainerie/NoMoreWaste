@@ -1,3 +1,17 @@
+export interface Entrepot {
+    id: number;
+    ville: string;
+    latitude: number;
+    longitude: number;
+
+
+    // name: string;
+    // address: string;
+    // capacity: number;
+    // available: number;
+    // color: string;
+}
+
 export interface Marker {
     lat: number;
     lng: number;

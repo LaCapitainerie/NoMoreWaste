@@ -2,9 +2,9 @@
 
 import ShadcnBigCalendar from "@/components/shadcn-big-calendar/shadcn-big-calendar";
 import moment from "moment";
-import { SetStateAction, useState } from "react";
-import { momentLocalizer, Views } from "react-big-calendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { SetStateAction, SyntheticEvent, useEffect, useState } from "react";
+import { momentLocalizer, stringOrDate, Views } from "react-big-calendar";
+import withDragAndDrop, { EventInteractionArgs } from "react-big-calendar/lib/addons/dragAndDrop";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -16,15 +16,18 @@ import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import CollectMap from "./Map";
+import { Entrepot } from "@/type/Entrepot";
+import axios from "axios";
+import { ResponseCustom } from "@/type/Reponse";
 // npm i --save-dev @types/react-big-calendar
 
 interface CollecteCalendarProps {
   title: string;
-  start: Date;
-  end: Date;
+  start: stringOrDate;
+  end: stringOrDate;
 }
 
-const DnDCalendar = withDragAndDrop(ShadcnBigCalendar);
+const DnDCalendar = withDragAndDrop<CollecteCalendarProps>(ShadcnBigCalendar);
 const localizer = momentLocalizer(moment);
 
 const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
@@ -42,18 +45,28 @@ const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
 
   const [inputDate, setInputDate] = useState(new Date());
 
-  const handleModifyEvent = ({ title, start, end }: { title: string, start: Date, end: Date }) => {
+  const [warehouses, setWarehouses] = useState<Entrepot[]>([]);
 
-    setSelectedEvent({ title, start, end });
-    setSelectedEventCopy({ title, start, end });
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      const response = await axios.get<ResponseCustom<Entrepot>>("http://localhost:1000/warehouses.php");
+      setWarehouses(response.data.result);
+    };
+    fetchWarehouses();
+  }, [isOpen==true]);
+
+  const handleModifyEvent = (event: CollecteCalendarProps, e: SyntheticEvent<HTMLElement, Event>) => {
+
+    setSelectedEvent(event);
+    setSelectedEventCopy(event);
 
     setDate({
-      from: start,
-      to: end
+      from: new Date(event.start),
+      to: new Date(event.end)
     });
 
     setIsOpen(true);
-    
+
   };
 
   const handleNavigate = (newDate: Date) => {
@@ -64,25 +77,13 @@ const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
     setView(newView);
   };
 
-  const handleEventDrop = ({
-    event,
-    start,
-    end
-  }: {
-    event: {
-      title: string,
-      start: Date,
-      end: Date
-    },
-    start: Date,
-    end: Date
-  }) => {
-    console.log(event, start, end);
+  const handleEventDrop = (args: EventInteractionArgs<CollecteCalendarProps>) => {
 
     const updatedEvents = AllEvents.map((e) => {
-      if (e.title === event.title) {
-        e.start = start;
-        e.end = end;
+
+      if (e.title === args.event.title) {
+        e.start = args.start;
+        e.end = args.end;
       }
       return e;
     });
@@ -100,7 +101,7 @@ const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
     endHour.setSeconds(0);
 
     console.log(startHour, endHour);
-    
+
     const number = AllEvents.filter(v => v.title.startsWith("New Event")).length;
 
     const NewEvent = {
@@ -118,100 +119,123 @@ const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle onClick={_ => {setEditTitle(true)}} className="flex flex-row justify-between items-center gap-8">
+            <DialogTitle onClick={_ => { setEditTitle(true) }} className="flex flex-row justify-between items-center gap-8">
 
               {
                 EditTitle ?
-                <>
-                  <Input
-                    type="text"
-                    defaultValue={selectedEventCopy?.title.split("#")[0]}
-                    autoFocus={true}
-                    onBlur={(e) => {
+                  <>
+                    <Input
+                      type="text"
+                      defaultValue={selectedEventCopy?.title.split("#")[0]}
+                      autoFocus={true}
+                      onBlur={(e) => {
 
                         setEditTitle(false);
 
-                        if(selectedEventCopy){
+                        if (selectedEventCopy) {
                           var number = selectedEvent?.title.split("#")[1];
-                          if(AllEvents.map(v => v.title).includes(selectedEventCopy.title)){
+                          if (AllEvents.map(v => v.title).includes(selectedEventCopy.title)) {
                             number = (AllEvents.filter(v => v.title.startsWith(selectedEventCopy?.title.split("#")[0])).length + 1).toString();
                           };
-                          
+
                           selectedEventCopy.title = e.currentTarget.value.trimEnd() + "#" + number;
                         };
                       }
-                    }
-                    onKeyDown={(e) => {
-                      if(e.key == "#"){
-                        e.preventDefault();
-                      };
-                    }}
-                  />
-                </>
-                :
-                selectedEventCopy?.title.split("#")[0]
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key == "#") {
+                          e.preventDefault();
+                        };
+                      }}
+                    />
+                  </>
+                  :
+                  selectedEventCopy?.title.split("#")[0]
               }
-              
+
               <p>
                 {selectedEventCopy?.title.split("#")[1]}
               </p>
-            
+
             </DialogTitle>
             <DialogDescription>
-              {selectedEventCopy?.start.toDateString()} - {selectedEventCopy?.end.toDateString()}
+              {selectedEventCopy?.start.toString()} - {selectedEventCopy?.end.toString()}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
+
+            <CollectMap className="h-[50vh]"
+              startPoint={{
+                lat: 49.0308833,
+                lng: 1.365873,
+                hour: selectedEventCopy?.start || "00:00"
+              }}
+
+              endPoint={{
+                lat: 48.7847957,
+                lng: 2.4274473,
+                hour: selectedEventCopy?.end || "00:00"
+              }}
+
+              actualPosition={{
+                lat: 48.8796,
+                lng: 2.4156,
+                hour: "12/08/2024 14:00:00"
+              }}
+
+              warehouses={warehouses.map((w) => ({ lat: w.latitude, lng: w.longitude, label: w.ville }))}
+            />
+
             <div className="grid grid-cols-4 items-center gap-4">
 
-            <div className={cn("grid gap-2 hidden")}>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    id="date"
-                    variant={"outline"}
-                    className={cn(
-                      "w-[300px] justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date?.from ? (
-                      date.to ? (
-                        <>
-                          {format(date.from, "LLL dd, y")} -{" "}
-                          {format(date.to, "LLL dd, y")}
-                        </>
+              <div className={cn("grid gap-2 hidden")}>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="date"
+                      variant={"outline"}
+                      className={cn(
+                        "w-[300px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date?.from ? (
+                        date.to ? (
+                          <>
+                            {format(date.from, "LLL dd, y")} -{" "}
+                            {format(date.to, "LLL dd, y")}
+                          </>
+                        ) : (
+                          format(date.from, "LLL dd, y")
+                        )
                       ) : (
-                        format(date.from, "LLL dd, y")
-                      )
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    lang="fr-fr"
-                    initialFocus
-                    mode="range"
-                    defaultMonth={date?.from}
-                    selected={date}
-                    onSelect={setDate}
-                    numberOfMonths={2}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      lang="fr-fr"
+                      initialFocus
+                      mode="range"
+                      defaultMonth={date?.from}
+                      selected={date}
+                      onSelect={setDate}
+                      numberOfMonths={2}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
 
             </div>
           </div>
           <DialogFooter>
             <Button type="submit"
-            
+
               onClick={() => {
-                      
+
                 if (selectedEvent && selectedEventCopy) {
                   selectedEvent.start = date?.from || selectedEvent.start;
                   selectedEvent.end = date?.to || selectedEvent.end;
@@ -224,9 +248,9 @@ const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
                     }
                     return e;
                   });
-              
+
                   setAllEvents(updatedEvents);
-                  
+
                   setIsOpen(false);
 
                   toast.success("Changements Enregistrés")
