@@ -1,71 +1,45 @@
+"use client"
+
 import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Adherent } from "@/type/Adherent";
 import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
 import { columns } from "./commercant-columns";
 import { Commercant } from "@/type/Commercant";
 import { ResponseCustom } from "@/type/Reponse";
-import { adherent_panel_menuListValue } from "@/type/Panel";
+import { adherentPanelMenuListValue } from "@/type/Panel";
+import { lang } from "@/lib/utils";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import axios from "axios";
 
-async function getData(): Promise<Adherent[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: 1,
-      Abonnement: "Standard",
-      Prénom: "Hugo",
-      Nom: "Antréassion",
-      Mail: "m@example.com",
-    },
-    {
-      id: 2,
-      Abonnement: "Premium",
-      Prénom: "Léon",
-      Nom: "Pupier",
-      Mail: "t@exemple.com",
-    },
-    {
-      id: 3,
-      Abonnement: "VIP",
-      Prénom: "Sarmawel",
-      Nom: "Bloomfield",
-      Mail: "f@exemple.com",
-    },
-  ] as Adherent[]
-}
+export default function DashboardPage() {
 
-export default async function DashboardPage() {
-  const result = await getData();
+  const [data, setData] = useState<Commercant[]>([]);
 
-  const result2: ResponseCustom<Commercant> = await fetch("http://localhost:1000/commercants.php", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw new Error("Something went wrong");
-    }
-  }).then((data) => {
-    return data;
-  }).catch((error) => {
-    console.error("Error:", error);
-  })
+  useState(() => {
+      axios.get<ResponseCustom<Commercant[]>>('http://localhost:1000/commercants.php').then((res) => {
+        setData(res.data.result);
+      });
+  });
+
+  const [language, setLanguage] = useState<lang>(
+    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
+  );
+
+  useEffect(() => {
+
+    if(typeof window !== "undefined") {
+      localStorage.setItem("lang", language);
+    };
+
+  }, [language]);
 
   return (
-    <ContentLayout title="Dashboard" menuListValue={adherent_panel_menuListValue}>
+    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -75,13 +49,20 @@ export default async function DashboardPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Commercant</BreadcrumbPage>
+            <BreadcrumbPage>
+              {
+                {
+                  "fr-Fr": "Commerçants",
+                  "en-US": "Merchants"
+                }[language]
+              }
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
-            <DataTable columns={columns} data={result2.result} route={"commercants"} />
+            <DataTable columns={columns} data={data} route={"commercants"} langue={language} />
         </CardContent>
       </Card>
     </ContentLayout>

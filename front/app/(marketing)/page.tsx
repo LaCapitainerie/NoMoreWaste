@@ -9,7 +9,7 @@ import axios from "axios";
 
 export default async function Page() {
 
-  const prices = await axios.get<ResponseCustom<Abonnement>>("http://localhost:1000/perks.php");
+  const prices = await axios.get<ResponseCustom<Abonnement[]>>("http://localhost:1000/perks.php");
 
   // const locationsResponse = fetch("http://localhost:1000/locations.php", {
   //   headers: {

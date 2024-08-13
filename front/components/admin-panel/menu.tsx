@@ -15,16 +15,16 @@ import {
   TooltipContent,
   TooltipProvider
 } from "@/components/ui/tooltip";
+import { adherentPanelMenuListValue } from "@/type/Panel";
 
 interface MenuProps {
   isOpen: boolean | undefined;
-  menuListValue: Group[];
 }
 
-export function Menu({ isOpen, menuListValue }: MenuProps) {
+export function Menu({ isOpen }: MenuProps) {
 
   const pathname = usePathname();
-  const menuList = getMenuList(pathname, menuListValue);
+  const menuList = getMenuList(pathname, adherentPanelMenuListValue["fr-Fr"]);
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">

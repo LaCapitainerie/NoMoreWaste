@@ -7,11 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "@/components/admin-panel/menu";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
 import { SidebarToggle } from "@/components/admin-panel/sidebar-toggle";
-import { Group } from "@/lib/menu-list";
 
-export function Sidebar({menuListValue}: {menuListValue: Group[]}) {
+export function Sidebar() {
   const sidebar = useStore(useSidebarToggle, (state) => state);
-  
   if(!sidebar) return null;
 
   return (
@@ -45,7 +43,7 @@ export function Sidebar({menuListValue}: {menuListValue: Group[]}) {
             </h1>
           </Link>
         </Button>
-        <Menu isOpen={sidebar?.isOpen} menuListValue={menuListValue} />
+        <Menu isOpen={sidebar?.isOpen} />
       </div>
     </aside>
   );

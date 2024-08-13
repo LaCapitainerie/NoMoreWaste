@@ -48,7 +48,9 @@ export type Group = {
 
 export function getMenuList(pathname: string, menuListValue: Group[]) {
 
-  
+  if (menuListValue === undefined) {
+    return [];
+  }
 
   return menuListValue.map(({ groupLabel, menus }) => ({
     groupLabel,

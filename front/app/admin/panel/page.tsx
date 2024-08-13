@@ -60,7 +60,7 @@ const features = [
 export default async function DashboardPage() {
 
   return (
-    <ContentLayout title="Dashboard" menuListValue={admin_panel_menuListValue}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

@@ -3,14 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { Abonnement, abos, Perks } from "@/type/Abonnement";
-import { Perk } from "@/type/Perks";
-import { ResponseCustom } from "@/type/Reponse";
+import { Abonnement } from "@/type/Abonnement";
 import { motion } from "framer-motion";
 import { CheckIcon, Loader } from "lucide-react";
 import { useState } from "react";
-
-type Interval = "month" | "year";
 
 export const toHumanPrice = (price: number, decimals: number = 2) => {
   return Number(price / 100).toFixed(decimals);
@@ -18,7 +14,7 @@ export const toHumanPrice = (price: number, decimals: number = 2) => {
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default function PricingSection({ prices }: { prices: Abonnement[] }) {
-  const [interval, setInterval] = useState<Interval>("month");
+  const [interval, setInterval] = useState<"month" | "year">("month");
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState<string | null>(null);
 

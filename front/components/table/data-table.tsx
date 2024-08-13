@@ -33,11 +33,13 @@ import {
 } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import InfoForm from "./modif"
+import { lang } from "@/lib/utils"
 
 interface DataTableProps<TData extends object, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     route: string
+    langue: lang
     className?: string
     rowPerPageDefault?: number
 }
@@ -46,6 +48,7 @@ export function DataTable<TData extends object, TValue>({
     columns,
     data,
     route,
+    langue,
     className,
     rowPerPageDefault=10,
 }: DataTableProps<TData, TValue>) {
@@ -78,6 +81,56 @@ export function DataTable<TData extends object, TValue>({
         },
     })
 
+    const colonne = {
+        "fr-Fr": "Colonnes",
+        "en-US": "Columns"
+    }
+    const noresult = {
+        "fr-Fr": "Aucun résultat.",
+        "en-US": "No results."
+    }
+    const nouveau = {
+        "fr-Fr": "Nouveau",
+        "en-US": "New"
+    }
+    const ajouter = {
+        "fr-Fr": "Ajouter un nouvel élément",
+        "en-US": "Add a new element"
+    }
+    const terminer = {
+        "fr-Fr": "Une fois terminé, cliquez sur le bouton 'Ajouter'.",
+        "en-US": "Once finished, click on the 'Add' button."
+    }
+    const precedent = {
+        "fr-Fr": "Précédent",
+        "en-US": "Previous"
+    }
+    const suivant = {
+        "fr-Fr": "Suivant",
+        "en-US": "Next"
+    }
+
+    const colonnes = {
+        "fr-Fr": {
+            "id": "id",
+            "Abonnement": "Abonnement",
+            "Prénom": "Prénom",
+            "Nom": "Nom",
+            "Mail": "Mail",
+            "extern": "extern",
+            "action": "action"
+        },
+        "en-US": {
+            "id": "id",
+            "Abonnement": "Subscription",
+            "Prénom": "First name",
+            "Nom": "Last name",
+            "Mail": "Mail",
+            "extern": "extern",
+            "action": "action"
+        }
+    }
+
     return (
         <div className={className}>
             <div className="flex items-center py-4">
@@ -92,7 +145,7 @@ export function DataTable<TData extends object, TValue>({
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns
+                            {colonne[langue]}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -155,7 +208,7 @@ export function DataTable<TData extends object, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    {noresult[langue]}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -164,20 +217,21 @@ export function DataTable<TData extends object, TValue>({
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
                 <Dialog>
-                    <DialogTrigger><Button>Nouveau</Button></DialogTrigger>
+                    <DialogTrigger><Button>{nouveau[langue]}</Button></DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Ajouter un nouvel élément</DialogTitle>
+                            <DialogTitle>{ajouter[langue]}</DialogTitle>
                             <DialogDescription>
-                                Une fois terminé, cliquez sur le bouton `&quot;Ajouter`&quot;.
+                                {terminer[langue]}
                             </DialogDescription>
                         </DialogHeader>
                         
-                        <InfoForm values={
-                            Object.fromEntries(Object.keys(data[0]).filter(v => !v.includes("extern")).map((key) => {
+                        {
+                            data.length > 0 &&
+                            <InfoForm values={Object.fromEntries(Object.keys(data[0]).filter(v => !v.includes("extern")).map((key) => {
                                 return [key, ""]
-                            }))
-                        } route={route} type={""} method={"POST"}/>
+                            }))} route={route} type={""} method={"POST"} language={langue}/>
+                        }
                     </DialogContent>
                 </Dialog>
                 
@@ -189,7 +243,7 @@ export function DataTable<TData extends object, TValue>({
                         onClick={() => setPage(page - 1)}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        {precedent[langue]}
                     </Button>
                     <Button
                         variant="outline"
@@ -197,7 +251,7 @@ export function DataTable<TData extends object, TValue>({
                         onClick={() => setPage(page + 1)}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        {suivant[langue]}
                     </Button>
                 </div>
             </div>

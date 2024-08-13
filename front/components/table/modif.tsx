@@ -7,10 +7,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
+import { lang } from "@/lib/utils";
 
 
 
-export default function InfoForm({ values, route, type, method }: { values: any, route: string, type: string, method: "GET" | "POST" | "PUT" | "DELETE" }) {
+export default function InfoForm({ values, route, type, method, language }: { values: any, route: string, type: string, method: "GET" | "POST" | "PUT" | "DELETE", language: lang }) {
     const [formData, setFormData] = useState(values);
 
     const handleChange = (event: { target: { name: any; value: any; }; }) => {
@@ -33,7 +34,7 @@ export default function InfoForm({ values, route, type, method }: { values: any,
                 throw new Error("Something went wrong");
             }
         }).then((data) => {
-            
+
             toast.success(`Modification Effectuée`);
             setFormData({});
             return data;
@@ -43,17 +44,27 @@ export default function InfoForm({ values, route, type, method }: { values: any,
             console.error("Error:", error);
             toast.success(`Erreur lors de la modification`);
         });
-
     };
+
+    const supprimer = {
+        "fr-Fr": "Supprimer",
+        "en-US": "Delete"
+    }
+
+    const etesvoussur = {
+        "fr-Fr": "Êtes-vous sûr ?",
+        "en-US": "Are you sure ?"
+    }
+
     return (
-            <form onSubmit={onSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                    {Object.entries(values).map(([key, value]) => {
-                        return <div key={key} className={`grid grid-cols-4 items-center gap-4 ${key.includes("id") ? "hidden" : ""}`}>
-                            <Label htmlFor={key} className="text-right">
-                                {key.replace("extern_", " ")}
-                            </Label>
-                            {key.includes("extern")
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+                {Object.entries(values).map(([key, value]) => {
+                    return <div key={key} className={`grid grid-cols-4 items-center gap-4 ${key.includes("id") ? "hidden" : ""}`}>
+                        <Label htmlFor={key} className="text-right">
+                            {key.replace("extern_", " ")}
+                        </Label>
+                        {key.includes("extern")
                             ?
                             <a>{(value || "") as string}</a>
                             :
@@ -64,31 +75,43 @@ export default function InfoForm({ values, route, type, method }: { values: any,
                                 name={key}
                                 onChange={handleChange}
                             />}
-                        </div>
-                    })}
-                </div>
-
-                <DialogFooter>
-                    <div className="w-full flex flex-row justify-between">
-                        <Dialog>
-                            <DialogTrigger>
-                                <Button type="submit">Supprimer {type}</Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Êtes-vous sûr ?</DialogTitle>
-                                    <DialogDescription>
-                                        Cette action est irréversible. Voulez-vous vraiment supprimer cet Adherent ?
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <DialogFooter>
-                                    <Button type="submit">Supprimer</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                        <Button type="submit">Sauvegarder</Button>
                     </div>
-                </DialogFooter>
-            </form>
+                })}
+            </div>
+
+            <DialogFooter>
+                <div className="w-full flex flex-row justify-between">
+                    <Dialog>
+                        <DialogTrigger>
+                            <Button type="submit">{supprimer[language]} {type}</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>{etesvoussur[language]}</DialogTitle>
+                                <DialogDescription>
+                                    {
+                                        {
+                                            "fr-Fr": 'Cette action est irréversible. Voulez-vous vraiment supprimer cet Adherent ?',
+                                            "en-US": 'This action is irreversible. Are you sure you want to delete this Adherent ?'
+                                        }[language]
+                                    }
+                                </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                                <Button type="submit">{supprimer[language]}</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                    <Button type="submit">
+                        {
+                            {
+                                "fr-Fr": "Valider",
+                                "en-US": "Submit"
+                            }[language]
+                        }
+                    </Button>
+                </div>
+            </DialogFooter>
+        </form>
     );
 }

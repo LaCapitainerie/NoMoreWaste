@@ -3,15 +3,10 @@ import { MenuIcon, PanelsTopLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Menu } from "@/components/admin-panel/menu";
-import {
-  Sheet,
-  SheetHeader,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Group } from "@/lib/menu-list";
+import { Sheet, SheetHeader, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-export function SheetMenu({menuListValue}: {menuListValue: Group[]}) {
+export function SheetMenu() {
+  
   return (
     <Sheet>
       <SheetTrigger className="lg:hidden" asChild>
@@ -32,7 +27,7 @@ export function SheetMenu({menuListValue}: {menuListValue: Group[]}) {
             </Link>
           </Button>
         </SheetHeader>
-        <Menu isOpen menuListValue={menuListValue}/>
+        <Menu isOpen={true}/>
       </SheetContent>
     </Sheet>
   );

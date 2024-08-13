@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
@@ -10,53 +12,20 @@ import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { BarChartMixed } from "@/components/ui/chart/bar-chart-mixed";
 import { ResponseCustom } from "@/type/Reponse";
-import { admin_panel_menuListValue } from "@/type/Panel";
+import { lang } from "@/lib/utils";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import axios from "axios";
 
-async function getData(): Promise<Adherent[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: 1,
-      Abonnement: "Standard",
-      Prénom: "Hugo",
-      Nom: "Antréassion",
-      Mail: "m@example.com",
-    },
-    {
-      id: 2,
-      Abonnement: "Premium",
-      Prénom: "Léon",
-      Nom: "Pupier",
-      Mail: "t@exemple.com",
-    },
-    {
-      id: 3,
-      Abonnement: "VIP",
-      Prénom: "Sarmawel",
-      Nom: "Bloomfield",
-      Mail: "f@exemple.com",
-    },
-  ] as Adherent[]
-}
 
-export default async function DashboardPage() {
-  const result = await getData();
+export default function DashboardPage() {
 
-  const result2: ResponseCustom<Adherent> = await fetch("http://localhost:1000/adherents.php", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw new Error("Something went wrong");
-    }
-  }).then((data) => {
-    return data;
-  }).catch((error) => {
-    console.error("Error:", error);
+  const [data, setData] = useState<Adherent[]>([]);
+
+  useState(() => {
+      axios.get<ResponseCustom<Adherent[]>>('http://localhost:1000/adherents.php').then((res) => {
+        setData(res.data.result);
+      });
   });
 
   const BarChartLabelData = [
@@ -100,8 +69,20 @@ export default async function DashboardPage() {
     },
   } satisfies ChartConfig
 
+  const [language, setLanguage] = useState<lang>(
+    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
+  );
+
+  useEffect(() => {
+
+    if(typeof window !== "undefined") {
+      localStorage.setItem("lang", language);
+    };
+
+  }, [language]);
+  
   return (
-    <ContentLayout title="Dashboard" menuListValue={admin_panel_menuListValue}>
+    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -120,7 +101,7 @@ export default async function DashboardPage() {
 
         <div className={"grid w-full auto-rows-[22rem] grid-cols-3 gap-4"}>
 
-          <DataTable columns={columns} data={result2.result} route={"commercants"} className={"col-span-3 lg:col-span-2 row-span-2"}/>
+          <DataTable columns={columns} data={data} route={"commercants"} className={"col-span-3 lg:col-span-2 row-span-2"} langue={language}/>
 
           <BarChartLabel
               title={"Adherent"}

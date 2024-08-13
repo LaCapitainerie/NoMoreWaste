@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
@@ -11,27 +13,33 @@ import { BarChartMultiple } from "@/components/ui/chart/bar-chart-multiple";
 import { RadarChartGridFilled } from "@/components/ui/chart/radar-chart-gridfilled";
 import { Incidents } from "@/type/Incidents";
 import { ResponseCustom } from "@/type/Reponse";
-import { admin_panel_menuListValue } from "@/type/Panel";
+import { adminPanelMenuListValue } from "@/type/Panel";
+import { lang } from "@/lib/utils";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 
-export default async function DashboardPage() {
+export default function DashboardPage() {
 
-  const result2: ResponseCustom<Incidents> = await fetch("http://localhost:1000/incidents.php", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw new Error("Something went wrong");
-    }
-  }).then((data) => {
-    return data;
-  }).catch((error) => {
-    console.error("Error:", error);
-  });
+  const result2: ResponseCustom<Incidents[]> = {success: false, result: [], error: ""}
+
+
+  // const result2: ResponseCustom<Incidents[]> = await fetch("http://localhost:1000/incidents.php", {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // }).then((res) => {
+  //   if (res.ok) {
+  //     return res.json();
+  //   } else {
+  //     throw new Error("Something went wrong");
+  //   }
+  // }).then((data) => {
+  //   return data;
+  // }).catch((error) => {
+  //   console.error("Error:", error);
+  // });
 
   const BarChartMultipleData = [
     { month: "January", ended: 186, en_cours: 94, open: 80 },
@@ -95,8 +103,20 @@ export default async function DashboardPage() {
     },
   } satisfies ChartConfig
 
+  const [language, setLanguage] = useState<lang>(
+    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
+  );
+
+  useEffect(() => {
+
+    if(typeof window !== "undefined") {
+      localStorage.setItem("lang", language);
+    };
+
+  }, [language]);
+
   return (
-    <ContentLayout title="Dashboard" menuListValue={admin_panel_menuListValue}>
+    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -121,7 +141,7 @@ export default async function DashboardPage() {
             </CardContent>
           </Card> */}
 
-          <DataTable columns={columns} data={result2.result} route={"commercants"} className={"col-span-3 lg:col-span-2"} rowPerPageDefault={3}/>
+          <DataTable columns={columns} data={result2.result} route={"commercants"} className={"col-span-3 lg:col-span-2"} rowPerPageDefault={3} langue={language}/>
 
           <BarChartMultiple
               title={"Incident"}

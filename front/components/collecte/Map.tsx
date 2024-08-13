@@ -5,18 +5,21 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 
 import 'leaflet/dist/leaflet.css';
 import { Marker, Polyline, Popup } from 'react-leaflet';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 import { stringOrDate } from 'react-big-calendar';
 import L from 'leaflet';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Entrepot } from '@/type/Entrepot';
 
 interface CollecteMapProps {
   startPoint: Point;
+  setStartPoint: Dispatch<SetStateAction<Entrepot | undefined>>;
   endPoint: Point;
   actualPosition?: Point;
   Markers?: { position: [number, number], popup: React.ReactNode }[];
   className?: string;
-  warehouses: Point[];
+  warehouses: Entrepot[];
 }
 
 interface Point {
@@ -25,7 +28,7 @@ interface Point {
   lng: number;
 }
 
-export default function Map({startPoint, endPoint, actualPosition, className, warehouses}: CollecteMapProps) {
+export default function Map({startPoint, setStartPoint, endPoint, actualPosition, className, warehouses}: CollecteMapProps) {
 
   const IconSize = 48;
 
@@ -67,7 +70,7 @@ export default function Map({startPoint, endPoint, actualPosition, className, wa
     };
 
     fetchRoute();
-  }, [startPoint, endPoint]);
+  }, [startPoint, endPoint, actualPosition]);
 
   return (
     <MapContainer center={[startPoint.lat, startPoint.lng]} zoom={5} className={className}>
@@ -89,8 +92,41 @@ export default function Map({startPoint, endPoint, actualPosition, className, wa
 
 
       {warehouses.map((warehouse, index) => (
-        <Marker key={index} position={[warehouse.lat, warehouse.lng]} icon={WarehouseIcon}>
-          <Popup>Entrepôt {index + 1}</Popup>
+        <Marker key={index} position={[warehouse.latitude, warehouse.longitude]} icon={WarehouseIcon}>
+          <Popup>
+
+            {
+              warehouse.latitude == actualPosition?.lat &&
+              warehouse.longitude == actualPosition?.lng ? "Position actuelle" : 
+              
+              warehouse.latitude == endPoint.lat &&
+              warehouse.longitude == endPoint.lng ? "Arrivée" :
+
+              warehouse.latitude == startPoint.lat &&
+              warehouse.longitude == startPoint.lng ? "Départ" :
+              (
+                <>
+                  Entrepôt {index + 1}<br/>
+                  <a><button onClick={_ => setStartPoint(warehouse)}>Définir cet entrepôt comme <br />Point de départ</button></a>
+                </>
+              )
+              // (
+              //   <Dialog>
+              //     <DialogTrigger>Details</DialogTrigger>
+              //     <DialogContent>
+              //       <DialogHeader>
+              //         <DialogTitle>Définir cet entrepôt comme</DialogTitle>
+              //         <DialogDescription>
+              //           <button>Point de départ</button>
+              //           <button>Point d&apos;arrivée</button>
+              //           <button>Point actuel</button>
+              //         </DialogDescription>
+              //       </DialogHeader>
+              //     </DialogContent>
+              //   </Dialog>
+              // )
+            }
+          </Popup>
         </Marker>
       ))}
     </MapContainer>
