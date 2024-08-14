@@ -21,7 +21,12 @@ export default function DashboardPage() {
   const [data, setData] = useState<Commercant[]>([]);
 
   useState(() => {
-      axios.get<ResponseCustom<Commercant[]>>('http://localhost:1000/commercants.php').then((res) => {
+      axios.get<ResponseCustom<Commercant[]>>('http://localhost:1000/commercants.php',
+        {
+          "headers": {
+            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+          }
+        }).then((res) => {
         setData(res.data.result);
       });
   });

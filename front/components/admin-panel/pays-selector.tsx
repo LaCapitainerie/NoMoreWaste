@@ -14,7 +14,12 @@ export function PaysSelector() {
     // axios.get<ResponseCustom<Entrepot[]>>('http://localhost:1000/warehouses.php').then(res => setWarehouses(res.data.result));
 
     useState(() => {
-        axios.get<ResponseCustom<Entrepot[]>>('http://localhost:1000/warehouses.php').then((res) => {
+        axios.get<ResponseCustom<Entrepot[]>>('http://localhost:1000/warehouses.php',
+            {
+              "headers": {
+                "bearer": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+              }
+            }).then((res) => {
             setWarehouses(res.data.result);
         });
     });

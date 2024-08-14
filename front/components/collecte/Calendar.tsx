@@ -103,7 +103,12 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
 
   useEffect(() => {
     const fetchWarehouses = async () => {
-      const response = await axios.get<ResponseCustom<Entrepot[]>>("http://localhost:1000/warehouses.php");
+      const response = await axios.get<ResponseCustom<Entrepot[]>>("http://localhost:1000/warehouses.php",
+        {
+          "headers": {
+            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+          }
+        });
       setWarehouses(response.data.result);
     };
     fetchWarehouses();
@@ -112,7 +117,12 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
 
   useEffect(() => {
     const fetchLivraisons = async () => {
-      const response = await axios.get<ResponseCustom<Livraison[]>>("http://localhost:1000/livraisons.php");
+      const response = await axios.get<ResponseCustom<Livraison[]>>("http://localhost:1000/livraisons.php",
+        {
+          "headers": {
+            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+          }
+        });
 
       const events = response.data.result.map((l) => ({
         title: l.title,
@@ -166,7 +176,7 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
       return e;
     });
 
-    const response = await axios.put<ResponseCustom<Livraison>>("http://localhost:1000/livraisons.php", 
+    const response = await axios.put<ResponseCustom<Livraison>>("http://localhost:1000/livraisons.php",
       {
         id: args.event.resource?.id,
         Depart: toSqlFormat(args.start),
@@ -393,7 +403,7 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
                   if (selectedEventCopy.resource) {
 
 
-                    const response = await axios.put<ResponseCustom<Livraison>>("http://localhost:1000/livraisons.php", 
+                    const response = await axios.put<ResponseCustom<Livraison>>("http://localhost:1000/livraisons.php",
                       {
                         title: selectedEventCopy.title,
                         id: selectedEventCopy.resource.id,

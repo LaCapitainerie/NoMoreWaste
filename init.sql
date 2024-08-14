@@ -23,7 +23,7 @@ CREATE TABLE "Adhérent" (
 	"id" INTEGER NOT NULL UNIQUE,
 	"Password" VARCHAR,
 	"Abonnement" VARCHAR,
-	"Prénom" VARCHAR,
+	"Prenom" VARCHAR,
 	"Nom" VARCHAR,
 	"Mail" VARCHAR,
 	"Ville" VARCHAR,

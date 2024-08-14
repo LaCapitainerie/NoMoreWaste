@@ -20,8 +20,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { lang } from "@/lib/utils";
+import { useState } from "react";
+import { Adherent } from "@/type/Adherent";
 
 export function UserNav() {
+
+  const [language, _] = useState<lang>(
+    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
+  );
+
+  const [account] = useState<Adherent>(
+    ((typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string)) || {Prenom: "John", Nom: "Doe"}) as Adherent
+  );
+
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
@@ -34,21 +46,39 @@ export function UserNav() {
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="https://avatars.githubusercontent.com/u/66835496?v=4" alt="Avatar" />
-                  <AvatarFallback className="bg-transparent">JD</AvatarFallback>
+                  <AvatarFallback className="bg-transparent">
+                    {/* {account.Prenom[0]}{account.Nom[0]} */}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
           </TooltipTrigger>
-          <TooltipContent side="bottom">Profile</TooltipContent>
+          <TooltipContent side="bottom">
+            <p>
+              {
+                {
+                  "fr-Fr": "Mon compte",
+                  "en-US": "My account"
+                }[language]
+              }
+            </p>
+          </TooltipContent>
         </Tooltip>
       </TooltipProvider>
 
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">John Doe</p>
+            <p className="text-sm font-medium leading-none">
+              {account.Prenom} {account.Nom}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
-              johndoe@example.com
+              {
+                {
+                  "fr-Fr": "Administrateur",
+                  "en-US": "Administrator"
+                }[language]
+              }
             </p>
           </div>
         </DropdownMenuLabel>
@@ -57,20 +87,35 @@ export function UserNav() {
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/dashboard" className="flex items-center">
               <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
-              Dashboard
+              {
+                {
+                  "fr-Fr": "Tableau de bord",
+                  "en-US": "Dashboard"
+                }[language]
+              }
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/account" className="flex items-center">
               <User className="w-4 h-4 mr-3 text-muted-foreground" />
-              Account
+              {
+                {
+                  "fr-Fr": "Mon compte",
+                  "en-US": "My account"
+                }[language]
+              }
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {}}>
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
-          Sign out
+          {
+            {
+              "fr-Fr": "Déconnexion",
+              "en-US": "Logout"
+            }[language]
+          }
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

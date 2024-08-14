@@ -18,6 +18,7 @@ export const userAuthSchema = z.object({
   lastname: z.string().optional(),
   email: z.string().email(),
   password: z.string().optional(),
+  ville: z.enum(["Paris", "Lyon", "Berlin", "Madrid"]),
 });
 type FormData = z.infer<typeof userAuthSchema>;
 
@@ -167,6 +168,30 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
                     )}
                   />
                 </div>
+
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="ville"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ville</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="ville"
+                            type="ville"
+                            placeholder="********"
+                            required
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+
                 <Button type="submit" className="w-full">
                   Créer un compte
                 </Button>

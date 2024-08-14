@@ -5,7 +5,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/co
 import { Card, CardContent } from "@/components/ui/card";
 import { Bento } from "@/components/admin-panel/bento";
 import { BellIcon, CalendarIcon, CircleDotDashed, GlobeIcon, User } from "lucide-react";
-import { admin_panel_menuListValue } from "@/type/Panel";
 
 const features = [
   {

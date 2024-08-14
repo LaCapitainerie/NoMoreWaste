@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Ellipsis, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
+import { cn, lang } from "@/lib/utils";
 import { getMenuList, Group } from "@/lib/menu-list";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,12 +16,17 @@ import {
   TooltipProvider
 } from "@/components/ui/tooltip";
 import { adherentPanelMenuListValue } from "@/type/Panel";
+import { useState } from "react";
 
 interface MenuProps {
   isOpen: boolean | undefined;
 }
 
 export function Menu({ isOpen }: MenuProps) {
+
+  const [language, _] = useState<lang>(
+    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
+  );
 
   const pathname = usePathname();
   const menuList = getMenuList(pathname, adherentPanelMenuListValue["fr-Fr"]);
@@ -110,7 +115,13 @@ export function Menu({ isOpen }: MenuProps) {
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    onClick={() => {}}
+                    onClick={() => {
+                      if(typeof window !== "undefined"){
+                        localStorage.removeItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string)
+                        localStorage.removeItem("sidebarOpen")
+                        location.href = "/";
+                      };
+                    }}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >
@@ -123,12 +134,24 @@ export function Menu({ isOpen }: MenuProps) {
                         isOpen === false ? "opacity-0 hidden" : "opacity-100"
                       )}
                     >
-                      Sign out
+                      {
+                        {
+                          "fr-Fr": "Déconnexion",
+                          "en-US": "Sign out"
+                        }[language]
+                      }
                     </p>
                   </Button>
                 </TooltipTrigger>
                 {isOpen === false && (
-                  <TooltipContent side="right">Sign out</TooltipContent>
+                  <TooltipContent side="right">
+                    {
+                      {
+                        "fr-Fr": "Déconnexion",
+                        "en-US": "Sign out"
+                      }[language]
+                    }
+                  </TooltipContent>
                 )}
               </Tooltip>
             </TooltipProvider>

@@ -37,7 +37,7 @@ export const columns: ColumnDef<Adherent>[] = [
         ),
     },
     {
-        accessorKey: "Prénom",
+        accessorKey: "Prenom",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Prénom" />
         ),

@@ -14,8 +14,8 @@ import { BarChartMixed } from "@/components/ui/chart/bar-chart-mixed";
 import { ResponseCustom } from "@/type/Reponse";
 import { lang } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
 import axios from "axios";
+import { toast } from "sonner";
 
 
 export default function DashboardPage() {
@@ -23,8 +23,25 @@ export default function DashboardPage() {
   const [data, setData] = useState<Adherent[]>([]);
 
   useState(() => {
-      axios.get<ResponseCustom<Adherent[]>>('http://localhost:1000/adherents.php').then((res) => {
-        setData(res.data.result);
+      axios.get<ResponseCustom<Adherent[]>>('http://localhost:1000/adherents.php',
+        {
+          "headers": {
+            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+          }
+        }).then((res) => {
+          if(res.data.success){
+            setData(res.data.result);
+          } else {
+            if(
+              typeof window !== "undefined" &&
+              localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string)
+            ){
+              toast.error("Erreur lors de la récupération des données");
+              setTimeout(() => {
+                window.location.href = "/login";
+              }, 2000);
+            }
+          };
       });
   });
 
@@ -121,8 +138,6 @@ export default function DashboardPage() {
 
         </div>
             
-
-
         </CardContent>
       </Card>
     </ContentLayout>

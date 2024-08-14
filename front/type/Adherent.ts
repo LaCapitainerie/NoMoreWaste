@@ -4,7 +4,7 @@ export type Adherent = {
     id: number
     Password: string
     Abonnement: Abonnement["Nom"]
-    Prénom: string
+    Prenom: string
     Nom: string
     Mail: string
     Ville: string

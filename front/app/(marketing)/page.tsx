@@ -33,7 +33,7 @@ export default async function Page() {
       <SphereMask />
       {/* <GlobeDemo marker={locationsReturn} /> */}
       <PricingSection prices={prices.data.result}/>
-      <CallToActionSection />
+      {/* <CallToActionSection /> */}
       <Particles
         className="absolute inset-0 -z-10"
         quantity={50}

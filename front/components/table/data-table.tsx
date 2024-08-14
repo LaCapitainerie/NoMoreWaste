@@ -114,28 +114,37 @@ export function DataTable<TData extends object, TValue>({
         "fr-Fr": {
             "id": "id",
             "Abonnement": "Abonnement",
-            "Prénom": "Prénom",
+            "Prenom": "Prenom",
+            "Adresse": "Adresse",
             "Nom": "Nom",
             "Mail": "Mail",
+            "Ville": "City",
             "extern": "extern",
             "action": "action"
         },
         "en-US": {
             "id": "id",
             "Abonnement": "Subscription",
-            "Prénom": "First name",
+            "Prenom": "First name",
+            "Adresse": "Address",
             "Nom": "Last name",
-            "Mail": "Mail",
+            "Mail": "Email",
+            "Ville": "City",
             "extern": "extern",
             "action": "action"
         }
+    }
+
+    const filteremails = {
+        "fr-Fr": "Filtrer les emails...",
+        "en-US": "Filter emails..."
     }
 
     return (
         <div className={className}>
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter emails..."
+                    placeholder={filteremails[langue]}
                     value={(table.getColumn("Mail")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
                         table.getColumn("Mail")?.setFilterValue(event.target.value)
