@@ -8,20 +8,6 @@ import { adherent_panel_menuListValue } from "@/type/Panel";
 
 export default function DashboardPage() {
 
-  const myEventsList = [
-    {
-      title: 'Meeting #1',
-      start: new Date(2024, 7, 12, 10, 0), // Year, Month (0-indexed), Day, Hours, Minutes
-      end: new Date(2024, 7, 12, 12, 0),
-    },
-    {
-      title: 'Lunch Break #1',
-      start: new Date(2024, 7, 12, 13, 0),
-      end: new Date(2024, 7, 12, 14, 0),
-    },
-    // Add more events here
-  ];
-
   return (
     <ContentLayout title="Dashboard" menuListValue={adherent_panel_menuListValue}>
       <Breadcrumb>
@@ -42,7 +28,7 @@ export default function DashboardPage() {
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
 
-          <CollecteCalendar events={myEventsList}/>
+          <CollecteCalendar/>
 
         </CardContent>
       </Card>
