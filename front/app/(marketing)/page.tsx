@@ -5,14 +5,11 @@ import Particles from "@/components/magicui/particles";
 import { SphereMask } from "@/components/magicui/sphere-mask";
 import { Abonnement, Perks } from "@/type/Abonnement";
 import { ResponseCustom } from "@/type/Reponse";
+import axios from "axios";
 
 export default async function Page() {
-  const pricesResponse = await fetch("http://localhost:1000/perks.php", {
-    method: "GET",
-    mode: 'no-cors',
-  });
 
-  const prices: ResponseCustom<Abonnement> = await (pricesResponse).json();  
+  const prices = await axios.get<ResponseCustom<Abonnement>>("http://localhost:1000/perks.php");
 
   // const locationsResponse = fetch("http://localhost:1000/locations.php", {
   //   headers: {
@@ -35,7 +32,7 @@ export default async function Page() {
       <HeroSection />
       <SphereMask />
       {/* <GlobeDemo marker={locationsReturn} /> */}
-      <PricingSection prices={prices.result}/>
+      <PricingSection prices={prices.data.result}/>
       <CallToActionSection />
       <Particles
         className="absolute inset-0 -z-10"

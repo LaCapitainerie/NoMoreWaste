@@ -14,6 +14,7 @@ CREATE TABLE `Ville` (
 
 CREATE TABLE `Entrepot` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
+	`pays` VARCHAR(255),
 	`ville` VARCHAR(255),
 	`latitude` FLOAT,
 	`longitude` FLOAT,
@@ -71,11 +72,14 @@ CREATE TABLE `Stock` (
 
 
 CREATE TABLE `Livraison` (
+	`title` VARCHAR(255),
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
-	`Collecte` DATETIME,
+	`Depart` DATETIME,
 	`Entrepot` INTEGER,
+	`Arrivee` DATETIME,
+	`Arrivelat` FLOAT,
+	`Arrivelong` FLOAT,
 	`Statut` VARCHAR(255),
-	`Adresse` VARCHAR(255),
 	PRIMARY KEY(`id`)
 );
 
@@ -131,10 +135,10 @@ INSERT INTO `Ville` (`Pays`, `Nom`, `Adresse`) VALUES ('France', 'Lyon', '1 rue 
 INSERT INTO `Ville` (`Pays`, `Nom`, `Adresse`) VALUES ('Allemagne', 'Berlin', '1 rue de la Liberté');
 INSERT INTO `Ville` (`Pays`, `Nom`, `Adresse`) VALUES ('Espagne', 'Madrid', '1 rue de la Fraternité');
 
-INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Paris', 48.8566, 2.3522);
-INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Lyon', 45.75, 4.85);
-INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Berlin', 52.52, 13.405);
-INSERT INTO `Entrepot` (`ville`, `latitude`, `longitude`) VALUES ('Madrid', 40.4168, -3.7038);
+INSERT INTO `Entrepot` (`pays`, `ville`, `latitude`, `longitude`) VALUES ('France', 'Paris', 48.8566, 2.3522);
+INSERT INTO `Entrepot` (`pays`, `ville`, `latitude`, `longitude`) VALUES ('France', 'Lyon', 45.75, 4.85);
+INSERT INTO `Entrepot` (`pays`, `ville`, `latitude`, `longitude`) VALUES ('Allemagne', 'Berlin', 52.52, 13.405);
+INSERT INTO `Entrepot` (`pays`, `ville`, `latitude`, `longitude`) VALUES ('Espagne', 'Madrid', 40.4168, -3.7038);
 
 INSERT INTO `Commercant` (`Nom`, `Adresse`, `Referent`) VALUES ('Carrefour', '1 rue de la Paix', 1);
 INSERT INTO `Commercant` (`Nom`, `Adresse`, `Referent`) VALUES ('Auchan', '1 rue de la République', 2);
@@ -168,10 +172,10 @@ INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Poire', 100);
 INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Banane', 100);
 INSERT INTO `Stock` (`Entrepot`, `Item`, `Quantité`) VALUES (4, 'Orange', 100);
 
-INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 1, 'En cours', '1 rue de la Paix');
-INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 2, 'En cours', '1 rue de la République');
-INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 3, 'En cours', '1 rue de la Liberté');
-INSERT INTO `Livraison` (`Collecte`, `Entrepot`, `Statut`, `Adresse`) VALUES ('2024-08-08 10:22:01', 4, 'En cours', '1 rue de la Fraternité');
+INSERT INTO `Livraison` (`title`, `Depart`, `Entrepot`, `Arrivee`, `Arrivelat`, `Arrivelong`, `Statut`) VALUES ('Livraison 1', '2024-08-12 00:00:00', 1, '2024-08-13 00:00:00', 52.52, 13.405, 'Terminee');
+INSERT INTO `Livraison` (`title`, `Depart`, `Entrepot`, `Arrivee`, `Arrivelat`, `Arrivelong`, `Statut`) VALUES ('Livraison 2', '2024-08-14 00:00:00', 2, '2024-08-16 00:00:00', 40.4168, -3.7038, 'En cours');
+INSERT INTO `Livraison` (`title`, `Depart`, `Entrepot`, `Arrivee`, `Arrivelat`, `Arrivelong`, `Statut`) VALUES ('Livraison 3', '2024-08-11 00:00:00', 3, '2024-08-11 00:00:00', 48.8566, 2.3522, 'Terminee');
+INSERT INTO `Livraison` (`title`, `Depart`, `Entrepot`, `Arrivee`, `Arrivelat`, `Arrivelong`, `Statut`) VALUES ('Livraison 4', '2024-08-16 00:00:00', 4, '2024-08-17 00:00:00', 45.75, 4.85, 'En attente');
 
 INSERT INTO `Error` (`id`, `Titre`, `texte`) VALUES (404, 'Erreur 404', 'Page non trouvée');
 INSERT INTO `Error` (`id`, `Titre`, `texte`) VALUES (500, 'Erreur 500', 'Erreur interne');

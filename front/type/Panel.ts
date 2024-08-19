@@ -5,7 +5,7 @@ export const adherent_panel_menuListValue = [
         groupLabel: "",
         menus: [
             {
-                href: "/dashboard",
+                href: "/adherent/panel",
                 label: "Accueil",
                 active: false,
                 icon: "Home",

@@ -53,7 +53,7 @@ const CollecteCalendar = ({ events }: { events: CollecteCalendarProps[] }) => {
       setWarehouses(response.data.result);
     };
     fetchWarehouses();
-  }, [isOpen==true]);
+  }, [isOpen]);
 
   const handleModifyEvent = (event: CollecteCalendarProps, e: SyntheticEvent<HTMLElement, Event>) => {
 
