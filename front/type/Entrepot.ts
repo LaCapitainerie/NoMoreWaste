@@ -1,5 +1,6 @@
 export interface Entrepot {
     id: number;
+    pays: string;
     ville: string;
     latitude: number;
     longitude: number;

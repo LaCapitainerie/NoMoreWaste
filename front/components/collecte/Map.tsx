@@ -27,26 +27,28 @@ interface Point {
 
 export default function Map({startPoint, endPoint, actualPosition, className, warehouses}: CollecteMapProps) {
 
+  const IconSize = 48;
+
   const TruckIcon = L.icon({
     iconUrl: '/truck_icon.png',
     shadowUrl: '/truck_shadow.png',
 
-    iconSize:     [64, 64],
-    shadowSize:   [64, 64],
-    iconAnchor:   [32, 64],
-    shadowAnchor: [32, 64],
-    popupAnchor:  [0, -32]
+    iconSize:     [IconSize, IconSize],
+    shadowSize:   [IconSize, IconSize],
+    iconAnchor:   [IconSize>>1, IconSize],
+    shadowAnchor: [IconSize>>1, IconSize],
+    popupAnchor:  [0, -(IconSize>>1)]
   });
 
   const WarehouseIcon = L.icon({
     iconUrl: '/warehouse_icon.png',
     shadowUrl: '/warehouse_shadow.png',
 
-    iconSize:     [64, 64],
-    shadowSize:   [64, 64],
-    iconAnchor:   [32, 64],
-    shadowAnchor: [32, 64],
-    popupAnchor:  [0, -32]
+    iconSize:     [IconSize, IconSize],
+    shadowSize:   [IconSize, IconSize],
+    iconAnchor:   [IconSize>>1, IconSize],
+    shadowAnchor: [IconSize>>1, IconSize],
+    popupAnchor:  [0, -(IconSize>>1)]
   });
 
   const [path, setPath] = useState<[number, number][]>([[0,0]]);
@@ -68,19 +70,19 @@ export default function Map({startPoint, endPoint, actualPosition, className, wa
   }, [startPoint, endPoint]);
 
   return (
-    <MapContainer center={[startPoint.lat, startPoint.lng]} zoom={13} className={className}>
+    <MapContainer center={[startPoint.lat, startPoint.lng]} zoom={5} className={className}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      
+
       {path.length > 0 && <Polyline positions={path} color="blue" />}
       <Marker position={[startPoint.lat, startPoint.lng]} icon={WarehouseIcon}>
         <Popup>Départ prévue le {startPoint.hour?.toString()}</Popup>
       </Marker>
-      <Marker position={[endPoint.lat, endPoint.lng]} icon={WarehouseIcon}>
+      {/* <Marker position={[endPoint.lat, endPoint.lng]} icon={WarehouseIcon}>
         <Popup>Arrivée prévue le {endPoint.hour?.toLocaleString()}</Popup>
-      </Marker>
+      </Marker> */}
       {actualPosition && <Marker position={[actualPosition.lat, actualPosition.lng]} icon={TruckIcon}>
         <Popup>Position actuelle le {actualPosition.hour?.toString()}</Popup>
       </Marker>}
