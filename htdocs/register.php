@@ -3,7 +3,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Bearer");
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -16,7 +16,7 @@ switch ($requestMethod) {
     default:
         echo jsonResponse(405, ["Content-Type: application/json"], [
             "success" => false,
-            "user" => null,
+            "result" => null,
             "error" => "Method not allowed"
         ]);
         break;

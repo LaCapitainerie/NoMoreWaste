@@ -3,7 +3,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Bearer");
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -20,7 +20,7 @@ switch ($requestMethod) {
         if(!array_key_exists("email", $body) || !array_key_exists("password", $body)){
             echo jsonResponse(400, ["Content-Type: application/json"], [
                 "success" => false,
-                "user" => null,
+                "result" => null,
                 "error" => "email or password not found"
             ]);
             return;
@@ -31,13 +31,13 @@ switch ($requestMethod) {
         if ($res) {
             echo jsonResponse(200, ["Content-Type: application/json"], [
                 "success" => true,
-                "user" => $res,
+                "result" => $res,
                 "error" => null
             ]);      
         } else {
             echo jsonResponse(200, ["Content-Type: application/json"], [
                 "success" => false,
-                "user" => null,
+                "result" => null,
                 "error" => "Bad email or password"
             ]);
         };
@@ -45,7 +45,7 @@ switch ($requestMethod) {
     default:
         echo jsonResponse(405, ["Content-Type: application/json"], [
             "success" => false,
-            "user" => null,
+            "result" => null,
             "error" => "Method not allowed"
         ]);
         break;

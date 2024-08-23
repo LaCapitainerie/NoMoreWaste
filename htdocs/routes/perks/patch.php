@@ -7,7 +7,7 @@ require_once __DIR__ . "/../../entities/perks/patch.php";
 
 try {
     $body = getBody();
-    $parameters = getParametersForRoute("/perks/:task");
+    // $parameters = getParametersForRoute("/perks/:task");
     $id = $parameters["task"];
 
     if($body == null || $id == null){

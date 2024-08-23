@@ -6,7 +6,7 @@ require_once __DIR__ . "/libraries/response.php";
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Bearer");
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -14,6 +14,17 @@ switch ($requestMethod) {
     case 'OPTIONS':
         break;
     case 'GET':
+        require_once __DIR__ . "/entities/adherent/auth.php";
+
+        if(!auth()) {
+            echo jsonResponse(401, ["Content-Type: application/json"], [
+                "success" => false,
+                "result" => null,
+                "error" => "Unauthorized"
+            ]);
+            break;
+        };
+
         require_once __DIR__ . "/entities/adherent/getAll.php";
 
         $offset = $_GET["offset"] ?? 0;

@@ -30,5 +30,3 @@ function auth(){
 
     return true;
 };
-
-?>

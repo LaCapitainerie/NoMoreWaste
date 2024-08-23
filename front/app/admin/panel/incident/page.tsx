@@ -6,7 +6,7 @@ import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { columns } from "./tickets-columns";
+import { getColumns } from "./tickets-columns";
 import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartMixed } from "@/components/ui/chart/bar-chart-mixed";
 import { BarChartMultiple } from "@/components/ui/chart/bar-chart-multiple";
@@ -141,7 +141,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card> */}
 
-          <DataTable columns={columns} data={result2.result} route={"commercants"} className={"col-span-3 lg:col-span-2"} rowPerPageDefault={3} langue={language}/>
+          <DataTable columns={getColumns(language)} data={result2.result} route={"commercants"} className={"col-span-3 lg:col-span-2"} rowPerPageDefault={3} langue={language}/>
 
           <BarChartMultiple
               title={"Incident"}

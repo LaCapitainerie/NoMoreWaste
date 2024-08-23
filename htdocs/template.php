@@ -5,7 +5,7 @@ require_once __DIR__ . "/libraries/body.php";
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Bearer");
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 

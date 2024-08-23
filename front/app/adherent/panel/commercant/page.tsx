@@ -4,16 +4,13 @@ import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Adherent } from "@/type/Adherent";
 import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { columns } from "./commercant-columns";
+import { getColumns } from "./commercant-columns";
 import { Commercant } from "@/type/Commercant";
 import { ResponseCustom } from "@/type/Reponse";
-import { adherentPanelMenuListValue } from "@/type/Panel";
 import { lang } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
 import axios from "axios";
 
 export default function DashboardPage() {
@@ -67,7 +64,7 @@ export default function DashboardPage() {
       </Breadcrumb>
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
-            <DataTable columns={columns} data={data} route={"commercants"} langue={language} />
+            <DataTable columns={getColumns(language)} data={data} route={"commercants"} langue={language} />
         </CardContent>
       </Card>
     </ContentLayout>

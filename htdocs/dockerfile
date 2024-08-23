@@ -1,36 +1,26 @@
-# File: Dockerfile
+# Use the official PHP image as a base image with Apache
+FROM php:8.1-apache
 
-# Use the official PHP image with Apache
-FROM php:8.0-apache
+# Install PDO and the MySQL driver
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Install required extensions and utilities
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    zip \
-    unzip \
-    git \
-    && docker-php-ext-install pdo pdo_pgsql
-
-# Enable Apache mod_rewrite
+# Enable Apache mod_rewrite (optional if you need URL rewriting)
 RUN a2enmod rewrite
 
-# Set the working directory
-WORKDIR /var/www/html
+# Add a custom Apache configuration file (if needed)
+COPY ./apache-config.conf /etc/apache2/sites-available/000-default.conf
 
-# Copy the current directory contents into the container
-COPY . .
+# Copy the contents of the htdocs folder into the container's web root
+COPY ./htdocs /var/www/html/
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Set the working directory to the web root
+WORKDIR /var/www/html/
 
-# Set environment variable to allow Composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-# Install PHP dependencies
-RUN composer install
+# Set correct permissions
+RUN chown -R www-data:www-data /var/www/html
 
 # Expose port 80
 EXPOSE 80
 
-# Start Apache in the foreground
+# Start Apache server
 CMD ["apache2-foreground"]

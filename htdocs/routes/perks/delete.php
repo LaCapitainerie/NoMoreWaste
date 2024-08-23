@@ -5,7 +5,7 @@ require_once __DIR__ . "/../../libraries/parameters.php";
 require_once __DIR__ . "/../../entities/perks/delete.php";
 
 try {
-    $parameters = getParametersForRoute("/perks/:task");
+    // $parameters = getParametersForRoute("/perks/:task");
     $id = $parameters["task"];
     $res = deleteTask($id);
 

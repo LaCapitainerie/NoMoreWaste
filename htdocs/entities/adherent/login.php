@@ -46,15 +46,9 @@ function login(string $email, string $password){
     if (!$success) { return false; };
 
     $user = $getUserQuery->fetch(PDO::FETCH_ASSOC);
-
-    $user_return = [
-        "firstname" => $user["Prenom"],
-        "lastname" => $user["Nom"],
-        "token" => $user["token"]
-    ];
     
 
-    return $user_return;
+    return $user;
 };
 
 ?>

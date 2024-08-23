@@ -4,14 +4,22 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
 import { DialogHeader } from "../ui/dialog";
 import InfoForm from "./modif";
+import { lang } from "@/lib/utils";
 
-export default function Infos({values, type, id, route}: {values: any, type: string, id: any, route: string}) {
+export default function Infos({values, type, id, route, language}: {values: any, type: string, id: any, route: string, language: lang}) {
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
+                    <span className="sr-only">
+                        {
+                            {
+                                "fr-Fr": "Plus d'informations",
+                                "en-US": "More informations",
+                            }[language]
+                        }
+                    </span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
@@ -20,21 +28,48 @@ export default function Infos({values, type, id, route}: {values: any, type: str
                 <DropdownMenuItem
                     onClick={() => navigator.clipboard.writeText(id.toString())}
                 >
-                    Copier l&apos;id unique
+                    {
+                        {
+                            "fr-Fr": "Copier l'id unique",
+                            "en-US": "Copy unique id",
+                        }[language]
+                    }
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e: { preventDefault: () => any; }) => e.preventDefault()}>
                     <Dialog>
-                        <DialogTrigger>Plus d&apos;info</DialogTrigger>
+                        <DialogTrigger>
+                            {
+                                {
+                                    "fr-Fr": "Plus d'info",
+                                    "en-US": "Plus",
+                                }[language]
+                            }
+                        </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
-                                <DialogTitle>Information sur {type}</DialogTitle>
+                                <DialogTitle>
+                                    Information
+                                    {
+                                        {
+                                            "fr-Fr": " sur ",
+                                            "en-US": " on ",
+                                        }[language]
+                                    }
+                                    {type}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    Une fois les modifications effectuées, cliquez sur le bouton `&quot;Enregistrer les modifications`&quot;.
+                                    {
+                                        {
+                                            "fr-Fr": "Vous pouvez modifier les informations ci-dessous.",
+                                            "en-US": "You can modify the informations below.",
+                                        }[language]
+                                    }
+                                    {/* Une fois les modifications effectuées, cliquez sur le bouton `&quot;Enregistrer les modifications`&quot;. */}
                                 </DialogDescription>
                             </DialogHeader>
 
-                            <InfoForm values={values} route={route} type={type} method={"PUT"}/>
+                            <InfoForm values={values} route={route} type={type} method={"PUT"} language={language}/>
                         </DialogContent>
                     </Dialog>
                 </DropdownMenuItem>

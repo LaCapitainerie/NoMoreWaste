@@ -1,55 +1,46 @@
-# File: docker-compose.yml
-
 version: '3.8'
 
 services:
-  # nmw-front:
-  #   build:
-  #     context: front
-  #     dockerfile: Dockerfile
-  #   container_name: nmw-front
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     NEXT_PUBLIC_API_URL: "http://localhost:8080/api"
-  #   depends_on:
-  #     - no-more-waste-bdd
-  #   networks:
-  #     - nmw-network
+  nmw-front:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    container_name: nmw-front
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:1000/"
+      NEXT_PUBLIC_NOMOREWASTEUSER: "NOMOREWASTEUSER"
+      NEXT_PUBLIC_TOKEN: "NOMOREWASTETOKEN"
+    depends_on:
+      - no-more-waste-bdd
+    networks:
+      - nmw-network
 
   php-apache:
-    build:
-      context: php
-      dockerfile: Dockerfile
-    container_name: php-apache
+    build: ./htdocs
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
+      - ./htdocs:/var/www/html
+    restart: always
     depends_on:
       - no-more-waste-bdd
     networks:
       - nmw-network
 
   no-more-waste-bdd:
-    image: postgres:latest
-    container_name: no-more-waste-bdd
-    environment:
-      POSTGRES_DB: nomorewaste
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: "root"
+    image: mysql:8.0
     volumes:
-      - nmw-postgres-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nomorewaste
+    ports:
+      - "3306:3306"
+    restart: always
     networks:
       - nmw-network
-    ports:
-      - "127.0.0.1:5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U root -d nomorewaste"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 volumes:
   nmw-postgres-data:
