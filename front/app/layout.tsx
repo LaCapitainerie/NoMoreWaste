@@ -29,18 +29,16 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <UserContextProvider>
-          <LangContextProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              disableTransitionOnChange
-            >
-              {children}
-              <Toaster />
-            </ThemeProvider>
-          </LangContextProvider>
-        </UserContextProvider>
+        <LangContextProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </LangContextProvider>
       </body>
     </html>
   );
