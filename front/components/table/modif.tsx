@@ -21,7 +21,7 @@ export default function InfoForm({ values, route, type, method, language }: { va
     const onSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const result = fetch(`http://localhost:1000/${route}.php`, {
+        const result = fetch(process.env.NEXT_PUBLIC_API_URL as string + `${route}.php`, {
             method: method,
             headers: {
                 "Content-Type": "application/json",

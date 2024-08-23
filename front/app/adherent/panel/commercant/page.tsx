@@ -4,44 +4,16 @@ import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { getColumns } from "./commercant-columns";
-import { Commercant } from "@/type/Commercant";
-import { ResponseCustom } from "@/type/Reponse";
-import { lang } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useLangContext } from "@/hooks/lang-provider";
+import CollecteTable from "@/components/collecte/Table";
 
 export default function DashboardPage() {
-
-  const [data, setData] = useState<Commercant[]>([]);
-
-  useState(() => {
-      axios.get<ResponseCustom<Commercant[]>>('http://localhost:1000/commercants.php',
-        {
-          "headers": {
-            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
-          }
-        }).then((res) => {
-        setData(res.data.result);
-      });
-  });
-
-  const [language, setLanguage] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
-
-  useEffect(() => {
-
-    if(typeof window !== "undefined") {
-      localStorage.setItem("lang", language);
-    };
-
-  }, [language]);
+  
+  const lang = useLangContext();
 
   return (
-    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -56,7 +28,7 @@ export default function DashboardPage() {
                 {
                   "fr-Fr": "Commerçants",
                   "en-US": "Merchants"
-                }[language]
+                }[lang]
               }
             </BreadcrumbPage>
           </BreadcrumbItem>
@@ -64,7 +36,7 @@ export default function DashboardPage() {
       </Breadcrumb>
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
-            <DataTable columns={getColumns(language)} data={data} route={"commercants"} langue={language} />
+          <CollecteTable lang={lang} />
         </CardContent>
       </Card>
     </ContentLayout>

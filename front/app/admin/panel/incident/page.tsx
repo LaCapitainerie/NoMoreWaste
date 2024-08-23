@@ -13,10 +13,7 @@ import { BarChartMultiple } from "@/components/ui/chart/bar-chart-multiple";
 import { RadarChartGridFilled } from "@/components/ui/chart/radar-chart-gridfilled";
 import { Incidents } from "@/type/Incidents";
 import { ResponseCustom } from "@/type/Reponse";
-import { adminPanelMenuListValue } from "@/type/Panel";
-import { lang } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { useLangContext } from "@/hooks/lang-provider";
 
 
 export default function DashboardPage() {
@@ -24,7 +21,7 @@ export default function DashboardPage() {
   const result2: ResponseCustom<Incidents[]> = {success: false, result: [], error: ""}
 
 
-  // const result2: ResponseCustom<Incidents[]> = await fetch("http://localhost:1000/incidents.php", {
+  // const result2: ResponseCustom<Incidents[]> = await fetch(process.env.NEXT_PUBLIC_API_URL as string + "incidents.php", {
   //   method: "GET",
   //   headers: {
   //     "Content-Type": "application/json",
@@ -103,20 +100,10 @@ export default function DashboardPage() {
     },
   } satisfies ChartConfig
 
-  const [language, setLanguage] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
-
-  useEffect(() => {
-
-    if(typeof window !== "undefined") {
-      localStorage.setItem("lang", language);
-    };
-
-  }, [language]);
+  const language = useLangContext();
 
   return (
-    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

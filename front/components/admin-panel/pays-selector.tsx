@@ -11,10 +11,10 @@ export function PaysSelector() {
     
     const [warehouses, setWarehouses] = useState<Entrepot[]>([]);
 
-    // axios.get<ResponseCustom<Entrepot[]>>('http://localhost:1000/warehouses.php').then(res => setWarehouses(res.data.result));
+    // axios.get<ResponseCustom<Entrepot[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'warehouses.php').then(res => setWarehouses(res.data.result));
 
     useState(() => {
-        axios.get<ResponseCustom<Entrepot[]>>('http://localhost:1000/warehouses.php',
+        axios.get<ResponseCustom<Entrepot[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'warehouses.php',
             {
               "headers": {
                 "bearer": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))

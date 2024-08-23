@@ -1,14 +1,14 @@
-"use client";
-
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from "@/components/ui/select";
+import { useSetLangContext } from "@/hooks/lang-provider";
 import { lang, langvalues } from "@/lib/utils";
-import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 
-export function LangSelector({ setLanguage }: { setLanguage: Dispatch<SetStateAction<lang>> }) {
+export function LangSelector() {
+
+    const setStoredMode = useSetLangContext();
 
     return (
-        <Select onValueChange={v => setLanguage(v as lang)}>
+        <Select onValueChange={v => setStoredMode(v as lang)}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Langue" />
             </SelectTrigger>

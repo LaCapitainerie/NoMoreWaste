@@ -1,17 +1,16 @@
-import CallToActionSection from "@/components/landing/cta-section";
 import HeroSection from "@/components/landing/hero-section";
 import PricingSection from "@/components/landing/pricing-section";
 import Particles from "@/components/magicui/particles";
 import { SphereMask } from "@/components/magicui/sphere-mask";
-import { Abonnement, Perks } from "@/type/Abonnement";
+import { Abonnement } from "@/type/Abonnement";
 import { ResponseCustom } from "@/type/Reponse";
 import axios from "axios";
 
 export default async function Page() {
 
-  const prices = await axios.get<ResponseCustom<Abonnement[]>>("http://localhost:1000/perks.php");
+  const prices = await axios.get<ResponseCustom<Abonnement[]>>(process.env.NEXT_PUBLIC_API_URL as string + "/perks.php");
 
-  // const locationsResponse = fetch("http://localhost:1000/locations.php", {
+  // const locationsResponse = fetch(process.env.NEXT_PUBLIC_API_URL as string, {
   //   headers: {
   //     "Content-Type": "application/json",
   //   },

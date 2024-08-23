@@ -15,5 +15,6 @@ export default function DemoLayout({
         <PanelLayout>
             {children}
         </PanelLayout>
+        
     );
 }

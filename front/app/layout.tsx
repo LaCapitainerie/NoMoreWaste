@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
+import { LangContextProvider } from "@/hooks/lang-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,14 +28,16 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <LangContextProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </LangContextProvider>
       </body>
     </html>
   );

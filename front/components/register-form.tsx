@@ -12,6 +12,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Adherent } from "@/type/Adherent";
+import { ResponseCustom } from "@/type/Reponse";
 
 export const userAuthSchema = z.object({
   firstname: z.string().optional(),
@@ -37,7 +38,8 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
     setIsLoading(true);
 
     try{
-      const response: {success: boolean, user: null | Adherent, error: null | string} = await (await fetch(`http://localhost:1000/register.php`, {
+      
+      const response: ResponseCustom<Adherent> = await (await fetch(process.env.NEXT_PUBLIC_API_URL as string + "register.php", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -53,8 +55,8 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
         });
       };
 
-      if(response.user && typeof window !== "undefined"){
-        localStorage.setItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string, JSON.stringify(response.user))
+      if(response.result && typeof window !== "undefined"){
+        localStorage.setItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string, JSON.stringify(response.result))
         location.href = "/adherent/panel";
       };
       

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import Link from "next/link";
@@ -7,14 +8,11 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/co
 import { Card, CardContent } from "@/components/ui/card";
 import { Bento } from "@/components/admin-panel/bento";
 import { BellIcon, CalendarIcon, CircleDotDashed, GlobeIcon, User } from "lucide-react";
-import { lang } from "@/lib/utils";
-import { useState } from "react";
+import { useLangContext } from "@/hooks/lang-provider";
 
 export default function DashboardPage() {
 
-  const [language, setLanguage] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
+  const language = useLangContext();
 
   const features = [
     {
@@ -32,7 +30,7 @@ export default function DashboardPage() {
         "fr-Fr": "En savoir plus",
         "en-US": "Learn more"
       }[language],
-      background: <img src="/admin_panel_adherent.png" className="absolute opacity-60" />,
+      background: <img alt="" src="/admin_panel_adherent.png" className="absolute opacity-60" />,
       className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
     },
     {
@@ -50,7 +48,7 @@ export default function DashboardPage() {
         "fr-Fr": "En savoir plus",
         "en-US": "Learn more"
       }[language],
-      background: <img src="/admin_panel_incident.png" className="absolute -top-20 opacity-60" />,
+      background: <img alt="" src="/admin_panel_incident.png" className="absolute -top-20 opacity-60" />,
       className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
     },
     {
@@ -68,7 +66,7 @@ export default function DashboardPage() {
         "fr-Fr": "En savoir plus",
         "en-US": "Learn more"
       }[language],
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background: <img alt="" className="absolute -right-20 -top-20 opacity-60" />,
       className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
     },
     {
@@ -86,7 +84,7 @@ export default function DashboardPage() {
         "fr-Fr": "En savoir plus",
         "en-US": "Learn more"
       }[language],
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background: <img alt="" className="absolute -right-20 -top-20 opacity-60" />,
       className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
     },
     {
@@ -104,13 +102,13 @@ export default function DashboardPage() {
         "fr-Fr": "En savoir plus",
         "en-US": "Learn more"
       }[language],
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background: <img alt="" className="absolute -right-20 -top-20 opacity-60" />,
       className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
     },
   ];
 
   return (
-    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

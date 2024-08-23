@@ -9,15 +9,11 @@ import { AreaChartStacked } from "@/components/ui/chart/area-chart-stacked";
 import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { RadarChartGridFilled } from "@/components/ui/chart/radar-chart-gridfilled";
-import { lang } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { useLangContext } from "@/hooks/lang-provider";
 
 export default function DashboardPage() {
   
-  const [language, setLanguage] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
+  const language = useLangContext();
 
   const AreaChartStackedData = {
     "fr-Fr": [
@@ -161,16 +157,8 @@ export default function DashboardPage() {
     }
   }[language]
 
-  useEffect(() => {
-
-    if(typeof window !== "undefined") {
-      localStorage.setItem("lang", language);
-    };
-
-  }, [language]);
-
   return (
-    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

@@ -1,4 +1,5 @@
 "use client"
+
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
@@ -8,17 +9,13 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/co
 import { Card, CardContent } from "@/components/ui/card";
 import { Bento } from "@/components/admin-panel/bento";
 import { Store, Truck, Box } from "lucide-react";
-import { lang } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { useLangContext } from "@/hooks/lang-provider";
 
 
 
 export default function DashboardPage() {
 
-  const [language, setLanguage] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
+  const language = useLangContext();
 
   const features = [
     {
@@ -81,16 +78,8 @@ export default function DashboardPage() {
     },
   ];
 
-  useEffect(() => {
-
-    if(typeof window !== "undefined") {
-      localStorage.setItem("lang", language);
-    };
-
-  }, [language]);
-
   return (
-    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

@@ -12,10 +12,10 @@ import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { BarChartMixed } from "@/components/ui/chart/bar-chart-mixed";
 import { ResponseCustom } from "@/type/Reponse";
-import { lang } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { useLangContext } from "@/hooks/lang-provider";
 
 
 export default function DashboardPage() {
@@ -23,10 +23,10 @@ export default function DashboardPage() {
   const [data, setData] = useState<Adherent[]>([]);
 
   useState(() => {
-      axios.get<ResponseCustom<Adherent[]>>('http://localhost:1000/adherents.php',
+      axios.get<ResponseCustom<Adherent[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'adherents.php',
         {
           "headers": {
-            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+            "Authorization": "Bearer " + (localStorage?.getItem(process.env.NEXT_PUBLIC_TOKEN as string) || "")
           }
         }).then((res) => {
           if(res.data.success){
@@ -86,20 +86,10 @@ export default function DashboardPage() {
     },
   } satisfies ChartConfig
 
-  const [language, setLanguage] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
-
-  useEffect(() => {
-
-    if(typeof window !== "undefined") {
-      localStorage.setItem("lang", language);
-    };
-
-  }, [language]);
+  const language = useLangContext();
   
   return (
-    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
+    <ContentLayout title="Dashboard">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
