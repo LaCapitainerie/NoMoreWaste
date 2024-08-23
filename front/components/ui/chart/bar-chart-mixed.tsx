@@ -29,7 +29,7 @@ export function BarChartMixed({ title, description, chartConfig, chartData, clas
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) =>
-                chartConfig[value as keyof typeof chartConfig]?.label
+                String(chartConfig[value as keyof typeof chartConfig]?.label)
               }
             />
             <XAxis dataKey="visitors" type="number" hide />

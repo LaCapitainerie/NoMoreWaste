@@ -76,6 +76,7 @@ export function SiteFooter() {
               <img
                 src="https://magicui.design/icon.png"
                 className="h-8 w-8 text-primary"
+                alt="Magic UI"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                 Magic UI
