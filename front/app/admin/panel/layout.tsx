@@ -1,5 +1,4 @@
 import PanelLayout from "@/components/admin-panel/admin-panel-layout";
-import { admin_panel_menuListValue } from "@/type/Panel";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +12,7 @@ export default function DemoLayout({
     children: React.ReactNode;
 }) {
     return (
-        <PanelLayout menuListValue={admin_panel_menuListValue}>
+        <PanelLayout>
             {children}
         </PanelLayout>
     );

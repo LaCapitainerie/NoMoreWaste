@@ -7,7 +7,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Adherent } from "@/type/Adherent";
 import { DataTable } from "@/components/table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { columns } from "./adherent-columns";
+import { getColumns } from "./adherent-columns";
 import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { BarChartMixed } from "@/components/ui/chart/bar-chart-mixed";
@@ -118,7 +118,7 @@ export default function DashboardPage() {
 
         <div className={"grid w-full auto-rows-[22rem] grid-cols-3 gap-4"}>
 
-          <DataTable columns={columns} data={data} route={"commercants"} className={"col-span-3 lg:col-span-2 row-span-2"} langue={language}/>
+          <DataTable columns={getColumns(language)} data={data} route={"commercants"} className={"col-span-3 lg:col-span-2 row-span-2"} langue={language}/>
 
           <BarChartLabel
               title={"Adherent"}
