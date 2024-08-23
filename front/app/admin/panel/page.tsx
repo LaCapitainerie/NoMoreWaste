@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
@@ -5,61 +7,110 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/co
 import { Card, CardContent } from "@/components/ui/card";
 import { Bento } from "@/components/admin-panel/bento";
 import { BellIcon, CalendarIcon, CircleDotDashed, GlobeIcon, User } from "lucide-react";
+import { lang } from "@/lib/utils";
+import { useState } from "react";
 
-const features = [
-  {
-    Icon: User,
-    name: "Adherents",
-    description: "Gérer les adhérents de l'association.",
-    href: "/admin/panel/adherent",
-    cta: "En savoir plus",
-    background: <img src="/admin_panel_adherent.png" className="absolute opacity-60" />,
-    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
-  },
-  {
-    Icon: CircleDotDashed,
-    name: "Incidents",
-    description: "Gérer les incidents depuis un tableau de bord.",
-    href: "/admin/panel/incident",
-    cta: "En savoir plus",
-    background: <img src="/admin_panel_incident.png" className="absolute -top-20 opacity-60" />,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
-  },
-  {
-    Icon: GlobeIcon,
-    name: "Multilingual",
-    description: "Supports 100+ languages and counting.",
-    href: "/",
-    cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
-  },
-  {
-    Icon: CalendarIcon,
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
-    href: "/",
-    cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
-  },
-  {
-    Icon: BellIcon,
-    name: "Notifications",
-    description:
-      "Get notified when someone shares a file or mentions you in a comment.",
-    href: "/",
-    cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
-  },
-];
+export default function DashboardPage() {
 
+  const [language, setLanguage] = useState<lang>(
+    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
+  );
 
-export default async function DashboardPage() {
+  const features = [
+    {
+      Icon: User,
+      name: {
+        "fr-Fr": "Adhérents",
+        "en-US": "Members"
+      }[language],
+      description: {
+        "fr-Fr": "Gérer les adhérents depuis un tableau de bord.",
+        "en-US": "Manage members from a dashboard."
+      }[language],
+      href: "/admin/panel/adherent",
+      cta: {
+        "fr-Fr": "En savoir plus",
+        "en-US": "Learn more"
+      }[language],
+      background: <img src="/admin_panel_adherent.png" className="absolute opacity-60" />,
+      className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+    },
+    {
+      Icon: CircleDotDashed,
+      name: {
+        "fr-Fr": "Incidents",
+        "en-US": "Incidents"
+      }[language],
+      description: {
+        "fr-Fr": "Gérer les incidents depuis un tableau de bord.",
+        "en-US": "Manage incidents from a dashboard."
+      }[language],
+      href: "/admin/panel/incident",
+      cta: {
+        "fr-Fr": "En savoir plus",
+        "en-US": "Learn more"
+      }[language],
+      background: <img src="/admin_panel_incident.png" className="absolute -top-20 opacity-60" />,
+      className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    },
+    {
+      Icon: GlobeIcon,
+      name: {
+        "fr-Fr": "Langues",
+        "en-US": "Languages"
+      }[language],
+      description: {
+        "fr-Fr": "Gérer les langues depuis un tableau de bord.",
+        "en-US": "Manage languages from a dashboard."
+      }[language],
+      href: "/",
+      cta: {
+        "fr-Fr": "En savoir plus",
+        "en-US": "Learn more"
+      }[language],
+      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+    },
+    {
+      Icon: CalendarIcon,
+      name: {
+        "fr-Fr": "Calendrier",
+        "en-US": "Calendar"
+      }[language],
+      description: {
+        "fr-Fr": "Gérer les calendriers depuis un tableau de bord.",
+        "en-US": "Manage calendars from a dashboard."
+      }[language],
+      href: "/",
+      cta: {
+        "fr-Fr": "En savoir plus",
+        "en-US": "Learn more"
+      }[language],
+      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
+    },
+    {
+      Icon: BellIcon,
+      name: {
+        "fr-Fr": "Notifications",
+        "en-US": "Notifications"
+      }[language],
+      description:  {
+        "fr-Fr": "Gérer les notifications depuis un tableau de bord.",
+        "en-US": "Manage notifications from a dashboard."
+      }[language],
+      href: "/",
+      cta: {
+        "fr-Fr": "En savoir plus",
+        "en-US": "Learn more"
+      }[language],
+      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
+    },
+  ];
 
   return (
-    <ContentLayout title="Dashboard">
+    <ContentLayout title="Dashboard" setLanguage={setLanguage}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
