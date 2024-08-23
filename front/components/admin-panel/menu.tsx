@@ -16,7 +16,7 @@ import {
   TooltipProvider
 } from "@/components/ui/tooltip";
 import { adherentPanelMenuListValue } from "@/type/Panel";
-import { useState } from "react";
+import { useLangContext } from "@/hooks/lang-provider";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -24,10 +24,7 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
 
-  const [language, _] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
-
+  const language = useLangContext();
   const pathname = usePathname();
   const menuList = getMenuList(pathname, adherentPanelMenuListValue["fr-Fr"]);
 

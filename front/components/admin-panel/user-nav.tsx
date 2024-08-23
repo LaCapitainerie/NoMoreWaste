@@ -5,34 +5,15 @@ import { LayoutGrid, LogOut, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider
-} from "@/components/ui/tooltip";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { lang } from "@/lib/utils";
-import { useState } from "react";
-import { Adherent } from "@/type/Adherent";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useLangContext } from "@/hooks/lang-provider";
+import { useUserContext } from "@/hooks/user-provider";
 
 export function UserNav() {
 
-  const [language, _] = useState<lang>(
-    (typeof window !== "undefined" && localStorage.getItem("lang")) as lang || "fr-Fr"
-  );
-
-  const [account] = useState<Adherent>(
-    ((typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string)) || {Prenom: "John", Nom: "Doe"}) as Adherent
-  );
+  const language = useLangContext();
+  const account = useUserContext();
 
   return (
     <DropdownMenu>
@@ -45,8 +26,8 @@ export function UserNav() {
                 className="relative h-8 w-8 rounded-full"
               >
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://avatars.githubusercontent.com/u/66835496?v=4" alt="Avatar" />
                   <AvatarFallback className="bg-transparent">
+                    HA
                     {/* {account.Prenom[0]}{account.Nom[0]} */}
                   </AvatarFallback>
                 </Avatar>

@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { LangContextProvider } from "@/hooks/lang-provider";
+import { UserContextProvider } from "@/hooks/user-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,16 +29,18 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <LangContextProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster />
-          </ThemeProvider>
-        </LangContextProvider>
+        <UserContextProvider>
+          <LangContextProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </LangContextProvider>
+        </UserContextProvider>
       </body>
     </html>
   );
