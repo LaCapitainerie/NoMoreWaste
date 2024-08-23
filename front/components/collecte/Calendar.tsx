@@ -22,6 +22,7 @@ import { ResponseCustom } from "@/type/Reponse";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "../ui/label";
 import { Livraison } from "@/type/Livraison";
+import { useUserContext } from "@/hooks/user-provider";
 // npm i --save-dev @types/react-big-calendar
 
 interface CollecteCalendarProps<T = Livraison> {
@@ -99,20 +100,20 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
 
 
 
-
+  const user = useUserContext();
 
   useEffect(() => {
     const fetchWarehouses = async () => {
       const response = await axios.get<ResponseCustom<Entrepot[]>>(process.env.NEXT_PUBLIC_API_URL as string + "warehouses.php",
         {
           "headers": {
-            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+            "Authorization": "Bearer " + user.token || ""
           }
         });
       setWarehouses(response.data.result);
     };
     fetchWarehouses();
-  }, [isOpen]);
+  }, [isOpen, user.token]);
 
 
   useEffect(() => {
@@ -120,7 +121,7 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
       const response = await axios.get<ResponseCustom<Livraison[]>>(process.env.NEXT_PUBLIC_API_URL as string + "livraisons.php",
         {
           "headers": {
-            "Authorization": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+            "Authorization": "Bearer " + user.token || ""
           }
         });
 
@@ -134,7 +135,7 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
       setAllEvents(events);      
     };
     fetchLivraisons();
-  }, [isOpen]);
+  }, [isOpen, user.token]);
 
 
   const handleModifyEvent = (event: CollecteCalendarProps, e: SyntheticEvent<HTMLElement, Event>) => {

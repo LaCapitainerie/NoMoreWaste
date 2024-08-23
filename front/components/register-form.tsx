@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Adherent } from "@/type/Adherent";
 import { ResponseCustom } from "@/type/Reponse";
+import { useRouter } from "next/navigation";
+import { useSetUserContext } from "@/hooks/user-provider";
 
 export const userAuthSchema = z.object({
   firstname: z.string().optional(),
@@ -33,6 +35,8 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
     },
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const setUser = useSetUserContext();
+  const { push } = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -55,10 +59,8 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
         });
       };
 
-      if(response.result && typeof window !== "undefined"){
-        localStorage.setItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string, JSON.stringify(response.result))
-        location.href = "/adherent/panel";
-      };
+      setUser(response.result);
+      push('/adherent/panel');
       
     } catch (error) {
       toast.error("Une erreur s'est produite", {

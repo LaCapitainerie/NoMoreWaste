@@ -16,11 +16,13 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useLangContext } from "@/hooks/lang-provider";
+import { useRouter } from "next/navigation";
 
 
 export default function DashboardPage() {
 
   const [data, setData] = useState<Adherent[]>([]);
+  const { push } = useRouter();
 
   useState(() => {
       axios.get<ResponseCustom<Adherent[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'adherents.php',
@@ -32,15 +34,7 @@ export default function DashboardPage() {
           if(res.data.success){
             setData(res.data.result);
           } else {
-            if(
-              typeof window !== "undefined" &&
-              localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string)
-            ){
-              toast.error("Erreur lors de la récupération des données");
-              setTimeout(() => {
-                window.location.href = "/login";
-              }, 2000);
-            }
+            push('/login');
           };
       });
   });

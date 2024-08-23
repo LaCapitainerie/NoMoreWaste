@@ -2,21 +2,18 @@
 
 import Link from "next/link";
 import { Ellipsis, LogOut } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-import { cn, lang } from "@/lib/utils";
-import { getMenuList, Group } from "@/lib/menu-list";
+import { cn } from "@/lib/utils";
+import { getMenuList } from "@/lib/menu-list";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CollapseMenuButton } from "@/components/admin-panel/collapse-menu-button";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { adherentPanelMenuListValue } from "@/type/Panel";
 import { useLangContext } from "@/hooks/lang-provider";
+import { useSetUserContext } from "@/hooks/user-provider";
+import { Adherent } from "@/type/Adherent";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -24,6 +21,8 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
 
+  const setUser = useSetUserContext();
+  const { push } = useRouter();
   const language = useLangContext();
   const pathname = usePathname();
   const menuList = getMenuList(pathname, adherentPanelMenuListValue["fr-Fr"]);
@@ -113,11 +112,8 @@ export function Menu({ isOpen }: MenuProps) {
                 <TooltipTrigger asChild>
                   <Button
                     onClick={() => {
-                      if(typeof window !== "undefined"){
-                        localStorage.removeItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string)
-                        localStorage.removeItem("sidebarOpen")
-                        location.href = "/";
-                      };
+                        setUser({} as Adherent);
+                        push('/');
                     }}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"

@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Adherent } from "@/type/Adherent";
 import { ResponseCustom } from "@/type/Reponse";
+import { useSetUserContext, useUserContext } from "@/hooks/user-provider";
+import { useRouter } from 'next/navigation';
 
 export const userAuthSchema = z.object({
   firstname: z.string().optional(),
@@ -32,9 +34,14 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
     },
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  
+  // const user = useUserContext();
+  const setUser = useSetUserContext();
+  const { push } = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
+
 
     try{
       const response: ResponseCustom<Adherent> = await (await fetch(process.env.NEXT_PUBLIC_API_URL as string + "login.php", {
@@ -53,10 +60,8 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
         });
       };
 
-      if(response.result && typeof window !== "undefined"){
-        localStorage.setItem(process.env.NEXT_PUBLIC_NOMOREWASTEUSER as string, JSON.stringify(response.result))
-        location.href = "/adherent/panel/commercant";
-      };
+      setUser(response.result);
+      push('/adherent/panel');
       
     } catch (error) {
       toast.error("Une erreur s'est produite", {

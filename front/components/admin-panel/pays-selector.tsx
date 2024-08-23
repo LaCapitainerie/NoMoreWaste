@@ -1,6 +1,7 @@
 "use client";
 
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from "@/components/ui/select";
+import { useUserContext } from "@/hooks/user-provider";
 import { Entrepot } from "@/type/Entrepot";
 import { ResponseCustom } from "@/type/Reponse";
 import axios from "axios";
@@ -8,7 +9,7 @@ import { useState } from "react";
 
 export function PaysSelector() {
 
-    
+    const user = useUserContext();
     const [warehouses, setWarehouses] = useState<Entrepot[]>([]);
 
     // axios.get<ResponseCustom<Entrepot[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'warehouses.php').then(res => setWarehouses(res.data.result));
@@ -17,7 +18,7 @@ export function PaysSelector() {
         axios.get<ResponseCustom<Entrepot[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'warehouses.php',
             {
               "headers": {
-                "bearer": "Bearer " + (typeof window !== "undefined" && localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN as string))
+                "bearer": "Bearer " + user.token || ""
               }
             }).then((res) => {
             setWarehouses(res.data.result);
