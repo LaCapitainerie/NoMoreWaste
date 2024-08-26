@@ -113,7 +113,8 @@ export function Menu({ isOpen }: MenuProps) {
                   <Button
                     onClick={() => {
                         setUser({} as Adherent);
-                        push('/');
+                        window.location = '/';
+                        // push('/');
                     }}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"

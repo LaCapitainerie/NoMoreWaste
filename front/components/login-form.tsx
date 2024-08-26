@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Adherent } from "@/type/Adherent";
 import { ResponseCustom } from "@/type/Reponse";
 import { useSetUserContext, useUserContext } from "@/hooks/user-provider";
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 export const userAuthSchema = z.object({
   firstname: z.string().optional(),
@@ -37,7 +37,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   
   // const user = useUserContext();
   const setUser = useSetUserContext();
-  const { push } = useRouter();
+  // const { push } = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -61,7 +61,11 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
       };
 
       setUser(response.result);
-      push('/adherent/panel');
+      if (typeof window !== 'undefined'){
+        window.location = '/adherent/panel';
+      }
+        
+      // push('/adherent/panel');
       
     } catch (error) {
       toast.error("Une erreur s'est produite", {

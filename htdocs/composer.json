@@ -1,5 +1,17 @@
 {
+    "name": "hugo/nomorewaste",
+    "autoload": {
+        "psr-4": {
+            "Hugo\\Nomorewaste\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "LaCapitainerie",
+            "email": "hugo.antreassian@gmail.com"
+        }
+    ],
     "require": {
-        "firebase/php-jwt": "^6.0"
+        "monolog/monolog": "^3.7"
     }
 }

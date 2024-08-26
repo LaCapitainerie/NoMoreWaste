@@ -8,12 +8,11 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Adherent } from "@/type/Adherent";
 import { ResponseCustom } from "@/type/Reponse";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { useSetUserContext } from "@/hooks/user-provider";
 
 export const userAuthSchema = z.object({
@@ -36,7 +35,7 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const setUser = useSetUserContext();
-  const { push } = useRouter();
+  // const { push } = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -60,7 +59,8 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
       };
 
       setUser(response.result);
-      push('/adherent/panel');
+      if (typeof window !== 'undefined') window.location = '/adherent/panel';
+      // push('/adherent/panel');
       
     } catch (error) {
       toast.error("Une erreur s'est produite", {

@@ -16,13 +16,13 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useLangContext } from "@/hooks/lang-provider";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 
 export default function DashboardPage() {
 
   const [data, setData] = useState<Adherent[]>([]);
-  const { push } = useRouter();
+  // const { push } = useRouter();
 
   useState(() => {
       axios.get<ResponseCustom<Adherent[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'adherents.php',
@@ -34,7 +34,12 @@ export default function DashboardPage() {
           if(res.data.success){
             setData(res.data.result);
           } else {
-            push('/login');
+            if(typeof window !== 'undefined'){
+              toast.error(res.data.error || "Une erreur s'est produite", {
+                description: "Veuillez réessayer plus tard.",
+              });
+              window.location = '/login';
+            }
           };
       });
   });

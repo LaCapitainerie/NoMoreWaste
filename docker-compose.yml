@@ -1,26 +1,26 @@
 version: '3.8'
 
 services:
-  nmw-front:
-    build:
-      context: front
-      dockerfile: Dockerfile
-    container_name: nmw-front
-    ports:
-      - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: "http://localhost:1000/"
-      NEXT_PUBLIC_NOMOREWASTEUSER: "NOMOREWASTEUSER"
-      NEXT_PUBLIC_TOKEN: "NOMOREWASTETOKEN"
-    depends_on:
-      - no-more-waste-bdd
-    networks:
-      - nmw-network
+  # nmw-front:
+  #   build:
+  #     context: front
+  #     dockerfile: Dockerfile
+  #   container_name: nmw-front
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: "http://localhost:1000/"
+  #     NEXT_PUBLIC_NOMOREWASTEUSER: "NOMOREWASTEUSER"
+  #     NEXT_PUBLIC_TOKEN: "NOMOREWASTETOKEN"
+  #   depends_on:
+  #     - no-more-waste-bdd
+  #   networks:
+  #     - nmw-network
 
   php-apache:
     build: ./htdocs
     ports:
-      - "8080:80"
+      - "1000:8000"
     volumes:
       - ./htdocs:/var/www/html
     restart: always

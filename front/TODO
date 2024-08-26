@@ -1,0 +1,15 @@
+# TODO List Front
+
+@LaCapitainerie
+- [ ] Bug largeur d'écran lors de l'override du profile haut droite
+- [ ] Resize le bendo
+- [ ] Update les livraisons lors du changement de durée de temps de celles-ci
+- [ ] Mettre une valeur dynamique pour la position actuelle
+- [ ] Affichage des détails de la livraison (items, quantités, pdf)
+- [ ] Doublons de graphiques dans la partie stock
+- [ ] Graphiques non correspondants à la partie stock
+- [x] Bug sql Commercant
+- [ ] 401 dans la partie admin, (JWT)
+- [ ] Colonnes de tableaux non traduites
+- [ ] Parties des services manquantes
+- [ ] Image du start qui n'est pas la bonne

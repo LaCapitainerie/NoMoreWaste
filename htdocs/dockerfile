@@ -1,26 +1,16 @@
-# Use the official PHP image as a base image with Apache
-FROM php:8.1-apache
+FROM php:7.4-cli
 
-# Install PDO and the MySQL driver
-RUN docker-php-ext-install pdo pdo_mysql
+# Move our PHP file into the container
+COPY . /usr/src/app/
 
-# Enable Apache mod_rewrite (optional if you need URL rewriting)
-RUN a2enmod rewrite
+# Make things easier if you shell in
+WORKDIR /usr/src/app
 
-# Add a custom Apache configuration file (if needed)
-COPY ./apache-config.conf /etc/apache2/sites-available/000-default.conf
+# Our PHP will be running on port 8000
+EXPOSE 8000
 
-# Copy the contents of the htdocs folder into the container's web root
-COPY ./htdocs /var/www/html/
+# Install the PDO MySQL extension so we can database
+RUN docker-php-ext-install pdo_mysql
 
-# Set the working directory to the web root
-WORKDIR /var/www/html/
-
-# Set correct permissions
-RUN chown -R www-data:www-data /var/www/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start Apache server
-CMD ["apache2-foreground"]
+# Set up a web server
+CMD ["php", "-S", "0.0.0.0:8000"]
