@@ -9,7 +9,7 @@
       <td>
          <p align="center">
            <a href="https://skillicons.dev">
-             <img src="https://skillicons.dev/icons?i=nextjs,react,tailwind,js,ts,php,docker&perline=3" />
+             <img src="https://skillicons.dev/icons?i=nextjs,react,tailwind,js,ts,php,mysql,docker,github&perline=3" />
            </a>
          </p>
       </td>
