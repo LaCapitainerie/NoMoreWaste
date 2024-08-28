@@ -21,6 +21,7 @@ import axios from "axios";
 import { ResponseCustom } from "@/type/Reponse";
 import { Livraison } from "@/type/Livraison";
 import { useUserContext } from "@/hooks/user-provider";
+import ExcelDemo from "./ExcelExport";
 // npm i --save-dev @types/react-big-calendar
 
 interface CollecteCalendarProps<T = Livraison> {
@@ -213,7 +214,8 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
   
 
   return (
-    <main className="container">
+    <main className="flex flex-col container gap-4">
+
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[50%]">
           <DialogHeader>
@@ -459,6 +461,10 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
         onSelectEvent={handleModifyEvent}
 
       />
+
+      <div className="w-full flex flex-row justify-end">
+        <ExcelDemo lang={langue} livraisons={AllEvents.map(e => e.resource).filter(e => e != undefined)}/>
+      </div>
     </main>
   );
 };
