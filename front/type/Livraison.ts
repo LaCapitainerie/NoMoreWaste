@@ -1,5 +1,6 @@
 import { stringOrDate } from "react-big-calendar";
 import { Entrepot } from "./Entrepot";
+import { Stock } from "./Stock";
 
 export type Livraison = {
     title: string;
@@ -16,4 +17,6 @@ export type Livraison = {
     ville: Entrepot["ville"];
     latitude: Entrepot["latitude"];
     longitude: Entrepot["longitude"];
+
+    stocks: Stock[];
 };

@@ -22,6 +22,7 @@ import { ResponseCustom } from "@/type/Reponse";
 import { Livraison } from "@/type/Livraison";
 import { useUserContext } from "@/hooks/user-provider";
 import ExcelDemo from "./ExcelExport";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 // npm i --save-dev @types/react-big-calendar
 
 interface CollecteCalendarProps<T = Livraison> {
@@ -113,6 +114,23 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
     };
     fetchWarehouses();
   }, [isOpen, user.token]);
+
+  useEffect(() => {
+    console.log(selectedEventCopy);
+
+    console.log(startWarehouse ? {
+      lat: startWarehouse.latitude,
+      lng: startWarehouse.longitude,
+      "startwarehouse": startWarehouse.id,
+      // hour: selectedEventCopy?.start || "00:00"
+    } : {
+      lat: selectedEventCopy?.resource?.latitude || 0,
+      lng: selectedEventCopy?.resource?.longitude || 0,
+      "selectedEventCopy": selectedEventCopy?.resource?.entrepot,
+      // hour: selectedEventCopy?.start || "00:00"
+    });
+    
+  }, [isOpen, selectedEventCopy, startWarehouse]);
 
 
   useEffect(() => {
@@ -255,48 +273,68 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
 
             </DialogTitle>
             <DialogDescription>
-              {entrepotarrivee[langue]}
+              <div className="flex flex-row justify-between">
+                <a>{entrepotarrivee[langue]}</a>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    {
+                      {
+                        "fr-Fr": "Détails de la livraison",
+                        "en-US": "Details of the delivery"
+                      }[langue]
+                    }
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>
+                      {
+                        {
+                          "fr-Fr": "Palettes",
+                          "en-US": "Stacks"
+                        }[langue]
+                      }
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {
+                      selectedEventCopy?.resource?.stocks.map((item, idx) => (
+                        <DropdownMenuItem key={idx}>
+                          {item.item} x{item.removed}
+                        </DropdownMenuItem>
+                      ))
+                    }
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </DialogDescription>
           </DialogHeader>
             <div className="grid gap-4 py-4">
               <CollectMap className="h-[50vh]"
-            startPoint={startWarehouse ? {
-              lat: startWarehouse.latitude,
-              lng: startWarehouse.longitude,
-              // hour: selectedEventCopy?.start || "00:00"
-            } : {
-              lat: selectedEventCopy?.resource?.latitude || 0,
-              lng: selectedEventCopy?.resource?.longitude || 0,
-              // hour: selectedEventCopy?.start || "00:00"
-            }}
+                startPoint={startWarehouse ? {
+                  lat: startWarehouse.latitude,
+                  lng: startWarehouse.longitude,
+                  // hour: selectedEventCopy?.start || "00:00"
+                } : {
+                  lat: selectedEventCopy?.resource?.latitude || 0,
+                  lng: selectedEventCopy?.resource?.longitude || 0,
+                  // hour: selectedEventCopy?.start || "00:00"
+                }}
 
-            endPoint={endWarehouse ? {
-              lat: endWarehouse.latitude,
-              lng: endWarehouse.longitude,
-              // hour: selectedEventCopy?.end || "00:00"
-            } : {
-              lat: selectedEventCopy?.resource?.arrivelat || 0,
-              lng: selectedEventCopy?.resource?.arrivelong || 0,
-              // hour: selectedEventCopy?.end || "00:00"
-            }}
+                endPoint={endWarehouse ? {
+                  lat: endWarehouse.latitude,
+                  lng: endWarehouse.longitude,
+                  // hour: selectedEventCopy?.end || "00:00"
+                } : {
+                  lat: selectedEventCopy?.resource?.arrivelat || 0,
+                  lng: selectedEventCopy?.resource?.arrivelong || 0,
+                  // hour: selectedEventCopy?.end || "00:00"
+                }}
 
-            actualPosition={{
-              lat: 48.8796,
-              lng: 2.4156,
-              hour: "12/08/2024 14:00:00"
-            }}
-
-            warehouses={warehouses}
-            
-            setStartPoint={setStartWarehouse}
-            />
-
-
-
+                warehouses={warehouses}
+                
+                setStartPoint={setStartWarehouse}
+              />
 
               <div className="grid grid-cols-4 items-center gap-4">
-
-                <div className={cn("grid gap-2")}>
+                {/* <div className={cn("grid gap-2")}>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
@@ -336,7 +374,7 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
                       />
                     </PopoverContent>
                   </Popover>
-                </div>
+                </div> */}
               </div>
 
               {/* <div className="grid grid-cols-1 md:grid-cols-2">

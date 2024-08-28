@@ -16,11 +16,6 @@ function put(string $table, array $body): string {
     try {
         $databaseConnection = getDatabaseConnection();
 
-        // echo jsonResponse(200, ["Content-Type: application/json"], [
-        //     "success" => true,
-        //     "result" => $sql
-        // ]);
-
         $NewTask = $databaseConnection->prepare($sql);
 
         $NewTask->execute();

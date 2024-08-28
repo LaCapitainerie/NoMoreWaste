@@ -40,13 +40,20 @@ export function getColumns(langue: lang): ColumnDef<Adherent>[] {
             ),
         },
         {
-            accessorKey: "Prenom",
+            accessorKey: {
+                "fr-Fr": "Prénom",
+                "en-US": "First Name",
+            }[langue],
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Prénom" />
             ),
         },
         {
-            accessorKey: "Nom",
+            accessorKey: 
+            {
+                "fr-Fr": "Nom",
+                "en-US": "Last Name",
+            }[langue],
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Nom" />
             ),

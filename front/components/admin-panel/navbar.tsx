@@ -20,7 +20,7 @@ export function Navbar({ title }: NavbarProps) {
         </div>
         <div className="flex flex-1 items-center space-x-2 justify-end">
           <LangSelector />
-          <PaysSelector/>
+          {/* <PaysSelector/> */}
           <ModeToggle />
           <UserNav />
         </div>

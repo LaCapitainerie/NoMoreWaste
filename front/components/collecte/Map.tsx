@@ -72,62 +72,65 @@ export default function Map({startPoint, setStartPoint, endPoint, actualPosition
   }, [startPoint, endPoint, actualPosition]);
 
   return (
-    <MapContainer center={[startPoint.lat, startPoint.lng]} zoom={5} className={className}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
+    <>
+      <MapContainer center={[startPoint.lat, startPoint.lng]} zoom={5} className={className}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
 
-      {path.length > 0 && <Polyline positions={path} color="blue" />}
-      <Marker position={[startPoint.lat, startPoint.lng]} icon={WarehouseIcon}>
-        <Popup>Départ prévue le {startPoint.hour?.toString()}</Popup>
-      </Marker>
-      {/* <Marker position={[endPoint.lat, endPoint.lng]} icon={WarehouseIcon}>
-        <Popup>Arrivée prévue le {endPoint.hour?.toLocaleString()}</Popup>
-      </Marker> */}
-      {actualPosition && <Marker position={[actualPosition.lat, actualPosition.lng]} icon={TruckIcon}>
-        <Popup>Position actuelle le {actualPosition.hour?.toString()}</Popup>
-      </Marker>}
-
-
-      {warehouses.map((warehouse, index) => (
-        <Marker key={index} position={[warehouse.latitude, warehouse.longitude]} icon={WarehouseIcon}>
-          <Popup>
-
-            {
-              warehouse.latitude == actualPosition?.lat &&
-              warehouse.longitude == actualPosition?.lng ? "Position actuelle" : 
-              
-              warehouse.latitude == endPoint.lat &&
-              warehouse.longitude == endPoint.lng ? "Arrivée" :
-
-              warehouse.latitude == startPoint.lat &&
-              warehouse.longitude == startPoint.lng ? "Départ" :
-              (
-                <>
-                  Entrepôt {index + 1}<br/>
-                  <a><button onClick={_ => setStartPoint(warehouse)}>Définir cet entrepôt comme <br />Point de départ</button></a>
-                </>
-              )
-              // (
-              //   <Dialog>
-              //     <DialogTrigger>Details</DialogTrigger>
-              //     <DialogContent>
-              //       <DialogHeader>
-              //         <DialogTitle>Définir cet entrepôt comme</DialogTitle>
-              //         <DialogDescription>
-              //           <button>Point de départ</button>
-              //           <button>Point d&apos;arrivée</button>
-              //           <button>Point actuel</button>
-              //         </DialogDescription>
-              //       </DialogHeader>
-              //     </DialogContent>
-              //   </Dialog>
-              // )
-            }
-          </Popup>
+        {path.length > 0 && <Polyline positions={path} color="blue" />}
+        <Marker position={[startPoint.lat, startPoint.lng]} icon={WarehouseIcon}>
+          <Popup>Départ prévue le {startPoint.hour?.toString()}</Popup>
         </Marker>
-      ))}
-    </MapContainer>
+        {/* <Marker position={[endPoint.lat, endPoint.lng]} icon={WarehouseIcon}>
+          <Popup>Arrivée prévue le {endPoint.hour?.toLocaleString()}</Popup>
+        </Marker> */}
+        {actualPosition && <Marker position={[actualPosition.lat, actualPosition.lng]} icon={TruckIcon}>
+          <Popup>Position actuelle le {actualPosition.hour?.toString()}</Popup>
+        </Marker>}
+
+
+        {warehouses.map((warehouse, index) => (
+          <Marker key={index} position={[warehouse.latitude, warehouse.longitude]} icon={WarehouseIcon}>
+            <Popup>
+
+              {
+                warehouse.latitude == actualPosition?.lat &&
+                warehouse.longitude == actualPosition?.lng ? "Position actuelle" : 
+                
+                warehouse.latitude == endPoint.lat &&
+                warehouse.longitude == endPoint.lng ? "Arrivée" :
+
+                warehouse.latitude == startPoint.lat &&
+                warehouse.longitude == startPoint.lng ? "Départ" :
+                (
+                  <>
+                    Entrepôt {index + 1}<br/>
+                    <a><button onClick={_ => setStartPoint(warehouse)}>Définir cet entrepôt comme <br />Point de départ</button></a>
+                  </>
+                )
+                // (
+                //   <Dialog>
+                //     <DialogTrigger>Details</DialogTrigger>
+                //     <DialogContent>
+                //       <DialogHeader>
+                //         <DialogTitle>Définir cet entrepôt comme</DialogTitle>
+                //         <DialogDescription>
+                //           <button>Point de départ</button>
+                //           <button>Point d&apos;arrivée</button>
+                //           <button>Point actuel</button>
+                //         </DialogDescription>
+                //       </DialogHeader>
+                //     </DialogContent>
+                //   </Dialog>
+                // )
+              }
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+      <a className="underline" href={`https://www.google.com/maps/dir/?api=1&origin=${startPoint.lat},${startPoint.lng}&destination=${endPoint.lat},${endPoint.lng}&travelmode=driving`} target="_blank" rel="noreferrer">Ouvrir dans Google Maps</a>
+    </>
   );
 }

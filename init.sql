@@ -59,7 +59,7 @@ CREATE TABLE `palette` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
 	`livraison` INTEGER,
 	`stock` INTEGER,
-	`quantité` INTEGER,
+	`quantite` INTEGER,
 	PRIMARY KEY(`id`)
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE `stock` (
 	`id` INTEGER NOT NULL AUTO_INCREMENT,
 	`entrepot` INTEGER,
 	`item` VARCHAR(255),
-	`quantité` INTEGER,
+	`quantite` INTEGER,
 	PRIMARY KEY(`id`)
 );
 
@@ -142,27 +142,37 @@ INSERT INTO `perks` (`nom`, `abonnement`) VALUES ('livraison Standard', 'Standar
 INSERT INTO `perks` (`nom`, `abonnement`) VALUES ('livraison Premium', 'Premium');
 INSERT INTO `perks` (`nom`, `abonnement`) VALUES ('livraison VIP', 'VIP');
 
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (1, 'Pomme', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (1, 'Poire', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (1, 'Banane', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (1, 'Orange', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (2, 'Pomme', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (2, 'Poire', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (2, 'Banane', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (2, 'Orange', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (3, 'Pomme', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (3, 'Poire', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (3, 'Banane', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (3, 'Orange', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (4, 'Pomme', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (4, 'Poire', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (4, 'Banane', 100);
-INSERT INTO `stock` (`entrepot`, `item`, `quantité`) VALUES (4, 'Orange', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (1, 'Pomme', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (1, 'Poire', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (1, 'Banane', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (1, 'Orange', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (2, 'Pomme', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (2, 'Poire', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (2, 'Banane', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (2, 'Orange', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (3, 'Pomme', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (3, 'Poire', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (3, 'Banane', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (3, 'Orange', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (4, 'Pomme', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (4, 'Poire', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (4, 'Banane', 100);
+INSERT INTO `stock` (`entrepot`, `item`, `quantite`) VALUES (4, 'Orange', 100);
 
-INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 1', '2024-08-12 00:00:00', 1, '2024-08-13 00:00:00', 52.52, 13.405, 'Terminee');
-INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 2', '2024-08-14 00:00:00', 2, '2024-08-16 00:00:00', 40.4168, -3.7038, 'En cours');
-INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 3', '2024-08-11 00:00:00', 3, '2024-08-11 00:00:00', 48.8566, 2.3522, 'Terminee');
-INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 4', '2024-08-16 00:00:00', 4, '2024-08-17 00:00:00', 45.75, 4.85, 'En attente');
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (1, 1, 9);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (1, 2, 14);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (1, 4, 5);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (2, 5, 13);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (3, 9, 8);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (3, 12, 17);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (4, 13, 13);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (4, 15, 19);
+INSERT INTO `palette` (`livraison`, `stock`, `quantite`) VALUES (4, 16, 16);
+
+INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 1', '2024-08-29 00:00:00', 1, '2024-08-30 00:00:00', 52.52, 13.405, 'Terminee');
+INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 2', '2024-08-31 00:00:00', 2, '2024-09-04 00:00:00', 40.4168, -3.7038, 'En cours');
+INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 3', '2024-08-28 00:00:00', 3, '2024-08-28 00:00:00', 48.8566, 2.3522, 'Terminee');
+INSERT INTO `livraison` (`title`, `depart`, `entrepot`, `arrivee`, `arrivelat`, `arrivelong`, `statut`) VALUES ('livraison 4', '2024-09-02 00:00:00', 4, '2024-09-03 00:00:00', 45.75, 4.85, 'En attente');
 
 INSERT INTO `error` (`id`, `titre`, `texte`) VALUES (404, 'Erreur 404', 'Page non trouvée');
 INSERT INTO `error` (`id`, `titre`, `texte`) VALUES (500, 'Erreur 500', 'Erreur interne');

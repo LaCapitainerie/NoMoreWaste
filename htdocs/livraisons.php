@@ -23,7 +23,7 @@ switch ($requestMethod) {
 
     case 'PUT':
         require_once __DIR__ . "/libraries/method/call.php";
-        callMethod("put", "Livraison", ["id"], getBody());
+        callMethod("put", "livraison", ["id"], getBody());
         break;
 
     default:

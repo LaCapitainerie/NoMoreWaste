@@ -10,6 +10,14 @@ import { ChartConfig } from "@/components/ui/chart/chart";
 import { BarChartLabel } from "@/components/ui/chart/bar-chart-label";
 import { RadarChartGridFilled } from "@/components/ui/chart/radar-chart-gridfilled";
 import { useLangContext } from "@/hooks/lang-provider";
+import CollecteTable from "@/components/collecte/Table";
+import { getColumns } from "./stock-columns";
+import { DataTable } from "@/components/table/data-table";
+import { Stock } from "@/type/Stock";
+import { ResponseCustom } from "@/type/Reponse";
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function DashboardPage() {
   
@@ -157,6 +165,20 @@ export default function DashboardPage() {
     }
   }[language]
 
+
+  const [data, setData] = useState<Stock[]>([]);
+
+  useState(() => {
+      axios.get<ResponseCustom<Stock[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'stock.php',
+        {
+          "headers": {
+            "Authorization": "Bearer " + (localStorage?.getItem(process.env.NEXT_PUBLIC_TOKEN as string) || "")
+          }
+        }).then((res) => {
+          setData(res.data.result || []);
+      });
+  });
+
   return (
     <ContentLayout title="Dashboard">
       <Breadcrumb>
@@ -176,22 +198,24 @@ export default function DashboardPage() {
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
 
-          <div className={"grid w-full auto-rows-[22rem] grid-cols-3 gap-4"}>
+          <div className={"grid w-full auto-rows-[22rem] grid-cols-1 xl:grid-cols-2 gap-4"}>
 
-            <BarChartLabel
+            {/* <BarChartLabel
               title={BarChartLabelInfo.title}
               description={BarChartLabelInfo.description}
               chartConfig={BarChartLabelConfig}
               chartData={BarChartLabelData}
               className="col-span-3 lg:col-span-1"
-            />
+            /> */}
+
+            <DataTable columns={getColumns(language)} data={data} route={"stock"} className={"col-span-1 row-span-2"} langue={language}/>
 
             <AreaChartStacked
               title={AreaChartStackedInfo.title}
               description={AreaChartStackedInfo.description}
               chartConfig={AreaChartStackedConfig as unknown as ChartConfig}
               chartData={AreaChartStackedData}
-              className="col-span-3 lg:col-span-2"
+              className="col-span-1"
               style={{ aspectRatio: "128 / 33" }}
             />
 
@@ -200,18 +224,18 @@ export default function DashboardPage() {
               description={RadarChartGridFilledInfo.description}
               chartConfig={RadarChartGridFilledConfig}
               chartData={RadarChartGridFilledData}
-              className="col-span-3 lg:col-span-2"
+              className="col-span-1"
               style={{ aspectRatio: "20 / 9" }}
             />
 
-            <AreaChartStacked
+            {/* <AreaChartStacked
               title={"Stock"}
               description={"Stock de produits par entrepôt."}
               chartConfig={AreaChartStackedConfig as unknown as ChartConfig}
               chartData={AreaChartStackedData}
               className="col-span-3 lg:col-span-1"
               style={{ aspectRatio: "32 / 9" }}
-            />
+            /> */}
 
           </div>
 

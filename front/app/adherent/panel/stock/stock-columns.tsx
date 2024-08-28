@@ -1,13 +1,14 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-
 import { Checkbox } from "@/components/ui/checkbox"
 import Infos from "@/components/table/info"
 import { lang } from "@/lib/utils"
-import { Commercant } from "@/type/Commercant"
+import { Stock } from "@/type/Stock"
 
-export function getColumns(langue: lang): ColumnDef<Commercant>[] {
+export function getColumns(langue: lang): ColumnDef<Stock>[] {
+
+
 
     return [
         {
@@ -46,57 +47,54 @@ export function getColumns(langue: lang): ColumnDef<Commercant>[] {
             ),
         },
         {
-            accessorKey: "nom",
+            accessorKey: "item",
             header: {
-                "fr-Fr": "Nom",
-                "en-US": "Name",
-            }[langue],
+                "fr-Fr": "Article",
+                "en-US": "Item",
+            }[langue]
         },
         {
-            accessorKey: "adresse",
+            accessorKey: "quantite",
             header: {
-                "fr-Fr": "Adresse",
-                "en-US": "Address",
-            }[langue],
+                "fr-Fr": "Quantité",
+                "en-US": "Quantity",
+            }[langue]
         },
         {
-            accessorKey: "mail",
-            cell: ({ row }) => {
-                const value = row.original.extern_Mail
-                return (
-                    <a href={`mailto:${value}`} className="text-blue-500">
-                        {value}
-                    </a>
-                )
-            }
+            accessorKey: "extern_id",
+            header: {
+                "fr-Fr": "Entrepôt",
+                "en-US": "Warehouse",
+            }[langue]
         },
         {
-            accessorKey: "Ville",
+            accessorKey: "pays",
+            header: {
+                "fr-Fr": "Pays",
+                "en-US": "Country",
+            }[langue]
+        },
+        {
+            accessorKey: "ville",
             header: {
                 "fr-Fr": "Ville",
                 "en-US": "City",
-            }[langue],
-            cell: ({ row }) => {
-                const value = row.original.extern_Ville
-                return <span>{value}</span>
-            }
+            }[langue]
         },
         {
             id: "actions",
             cell: ({ row }) => {
                 const payment = row.original
-
+    
                 return (
                     <Infos
                         values={payment}
-                        type={
-                            {
-                                "fr-Fr": "le Commerçant",
-                                "en-US": "the Merchant",
-                            }[langue]
-                        }
+                        type={{
+                            "fr-Fr": "l'Incident",
+                            "en-US": "Ticket",
+                        }[langue]}
                         id={payment.id}
-                        route="commercants"
+                        route="incidents"
                         language={langue}
                     />
                 )
@@ -104,3 +102,5 @@ export function getColumns(langue: lang): ColumnDef<Commercant>[] {
         },
     ]
 }
+
+

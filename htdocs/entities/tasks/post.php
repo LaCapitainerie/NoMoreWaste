@@ -4,9 +4,9 @@ function MakeTask($content){
     require_once __DIR__ . "/../../database/connection.php";
     require_once __DIR__ . "/../adherent/auth.php";
 
-    if(!auth()){
-        return "token";
-    };
+    // if(!auth()){
+    //     return "token";
+    // };
 
 
     $databaseConnection = getDatabaseConnection();
