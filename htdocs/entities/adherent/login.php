@@ -5,7 +5,7 @@ function login(string $email, string $password){
 
     $databaseConnection = getDatabaseConnection();
 
-    $getUserQuery = $databaseConnection->prepare("SELECT id, password FROM adherent WHERE Mail = :email");
+    $getUserQuery = $databaseConnection->prepare("SELECT id, password FROM adherent WHERE mail = :email");
 
     $success = $getUserQuery->execute([
         "email" => $email
@@ -28,7 +28,7 @@ function login(string $email, string $password){
 
     $token = generateRandomString();
 
-    $getUserQuery = $databaseConnection->prepare("UPDATE `adherent` SET `token`= :token WHERE Mail = :email");
+    $getUserQuery = $databaseConnection->prepare("UPDATE `adherent` SET `token`= :token WHERE mail = :email");
 
     $success = $getUserQuery->execute([
         "token" => $token,
@@ -37,7 +37,7 @@ function login(string $email, string $password){
 
     if (!$success) { return false; };
 
-    $getUserQuery = $databaseConnection->prepare("SELECT Prenom, Nom, token FROM adherent WHERE Mail = :email");
+    $getUserQuery = $databaseConnection->prepare("SELECT Prenom, Nom, token FROM adherent WHERE mail = :email");
 
     $success = $getUserQuery->execute([
         "email" => $email

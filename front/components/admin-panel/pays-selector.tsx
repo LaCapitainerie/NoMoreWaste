@@ -22,6 +22,9 @@ export function PaysSelector() {
               }
             }).then((res) => {
             setWarehouses(res.data.result);
+        }).catch((err) => {
+            console.error(err);
+            setWarehouses([]);
         });
     });
 

@@ -1,4 +1,5 @@
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
+import { cn } from "@/lib/utils";
 
 
 export type BentoCardProps = {
@@ -10,10 +11,10 @@ export type BentoCardProps = {
   background: React.ReactNode;
   className: string;
 };
- 
-export function Bento({features}: {features: BentoCardProps[]}) {
+
+export function Bento({features, className}: {features: BentoCardProps[], className?: string}) {
   return (
-    <BentoGrid className="lg:grid-rows-3 h-full">
+    <BentoGrid className={cn(className, "lg:grid-rows-4 h-full")}>
       {features.map((feature) => (
         <BentoCard key={feature.name} {...feature} />
       ))}

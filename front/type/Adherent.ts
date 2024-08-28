@@ -2,12 +2,12 @@ import { Abonnement } from "./Abonnement";
 
 export type Adherent = {
     id: number
-    Password: string
-    Abonnement: Abonnement["Nom"]
-    Prenom: string
-    Nom: string
-    Mail: string
-    Ville: string
-    Service: string
+    password: string
+    abonnement: Abonnement["nom"]
+    prenom: string
+    nom: string
+    mail: string
+    ville: string
+    service: string
     token: string
 };

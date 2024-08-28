@@ -1,7 +1,7 @@
 <?
 
 function UpdateLivraison($body){
-    $sql = "UPDATE Livraison SET ";
+    $sql = "UPDATE livraison SET ";
 
     foreach ($body as $key => $value) {
         $sql .= "$key = '$value', ";

@@ -15,7 +15,7 @@ function MakeLivraison($content){
 
     $NewTask = $databaseConnection->prepare("
         INSERT INTO Livraison(
-            title, Depart, Entrepot, Arrivee, Arrivelat, Arrivelong, Statut
+            title, depart, entrepot, arrivee, arrivelat, arrivelong, statut
         ) VALUES (
             :title, :Depart, :Entrepot, :Arrivee, :Arrivelat, :Arrivelong, :Statut
         );
@@ -23,12 +23,12 @@ function MakeLivraison($content){
 
     $NewTask->execute([
         "title" => htmlspecialchars($content["title"]),
-        "Depart" => htmlspecialchars($content["Depart"]),
-        "Entrepot" => htmlspecialchars($content["Entrepot"]),
-        "Arrivee" => htmlspecialchars($content["Arrivee"]),
-        "Arrivelat" => htmlspecialchars($content["Arrivelat"]),
-        "Arrivelong" => htmlspecialchars($content["Arrivelong"]),
-        "Statut" => htmlspecialchars($content["Statut"]),
+        "depart" => htmlspecialchars($content["Depart"]),
+        "entrepot" => htmlspecialchars($content["Entrepot"]),
+        "arrivee" => htmlspecialchars($content["Arrivee"]),
+        "arrivelat" => htmlspecialchars($content["Arrivelat"]),
+        "arrivelong" => htmlspecialchars($content["Arrivelong"]),
+        "statut" => htmlspecialchars($content["Statut"]),
     ]);
 
     return $databaseConnection->lastInsertId();

@@ -8,11 +8,20 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { lang } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
+interface InfoFormProps {
+    values: any,
+    route: string,
+    type: string,
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    language: lang,
+    additionalInputs?: {name: string, values: any[], key: string, value: string}
+}
 
-
-export default function InfoForm({ values, route, type, method, language }: { values: any, route: string, type: string, method: "GET" | "POST" | "PUT" | "DELETE", language: lang }) {
+export default function InfoForm({ values, route, type, method, language, additionalInputs }: InfoFormProps) {
     const [formData, setFormData] = useState(values);
+    const [optionnalData, setOptionnalData] = useState<string>("");
 
     const handleChange = (event: { target: { name: any; value: any; }; }) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -26,7 +35,14 @@ export default function InfoForm({ values, route, type, method, language }: { va
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(
+                additionalInputs ?
+                {
+                    ...formData,
+                    [additionalInputs?.name]: optionnalData
+                } :
+                formData
+            ),
         }).then((res) => {
             if (res.ok) {
                 return res.json();
@@ -77,6 +93,29 @@ export default function InfoForm({ values, route, type, method, language }: { va
                             />}
                     </div>
                 })}
+
+                {
+                    additionalInputs && (
+                        <div key={0} className={`grid grid-cols-4 items-center gap-4`}>
+                            <Label className="text-right">
+                                {additionalInputs.name}
+                            </Label>
+                            <Select onValueChange={setOptionnalData} value={optionnalData}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder={additionalInputs.name} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {additionalInputs.values.map((option, idx) => (
+                                        <SelectItem key={idx} value={`${option[additionalInputs.key]}`}>
+                                            {`${option[additionalInputs.value]}`}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )
+                }
+
             </div>
 
             <DialogFooter>

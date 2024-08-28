@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Adherent } from "@/type/Adherent";
 import { ResponseCustom } from "@/type/Reponse";
-import { useSetUserContext, useUserContext } from "@/hooks/user-provider";
+import { useSetUserContext } from "@/hooks/user-provider";
 // import { useRouter } from 'next/navigation';
 
 export const userAuthSchema = z.object({

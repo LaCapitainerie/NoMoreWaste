@@ -34,6 +34,7 @@ import {
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import InfoForm from "./modif"
 import { lang } from "@/lib/utils"
+import { Adherent } from "@/type/Adherent"
 
 interface DataTableProps<TData extends object, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -42,6 +43,7 @@ interface DataTableProps<TData extends object, TValue> {
     langue: lang
     className?: string
     rowPerPageDefault?: number
+    additionalInputs?: {name: string, values: any[], key: string, value: string}
 }
 
 export function DataTable<TData extends object, TValue>({
@@ -51,6 +53,7 @@ export function DataTable<TData extends object, TValue>({
     langue,
     className,
     rowPerPageDefault=10,
+    additionalInputs
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -237,7 +240,7 @@ export function DataTable<TData extends object, TValue>({
                         
                         {
                             data.length > 0 &&
-                            <InfoForm values={Object.fromEntries(Object.keys(data[0]).filter(v => !v.includes("extern")).map((key) => {
+                            <InfoForm additionalInputs={additionalInputs} values={Object.fromEntries(Object.keys(data[0]).filter(v => !v.includes("extern")).map((key) => {
                                 return [key, ""]
                             }))} route={route} type={""} method={"POST"} language={langue}/>
                         }

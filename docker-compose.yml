@@ -28,6 +28,12 @@ services:
       - no-more-waste-bdd
     networks:
       - nmw-network
+    develop:
+      watch:
+        - actions:
+            - sync
+          path: /htdocs
+          target: /var/www/html
 
   no-more-waste-bdd:
     image: mysql:8.0

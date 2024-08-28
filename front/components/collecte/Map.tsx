@@ -9,7 +9,6 @@ import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 import { stringOrDate } from 'react-big-calendar';
 import L from 'leaflet';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Entrepot } from '@/type/Entrepot';
 
 interface CollecteMapProps {

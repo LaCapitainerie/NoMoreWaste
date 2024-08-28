@@ -5,12 +5,12 @@ export type Livraison = {
     title: string;
 
     id: number;
-    Depart: stringOrDate;
+    depart: stringOrDate;
     entrepot: Entrepot["id"];
-    Arrivee: stringOrDate;
-    Arrivelat: number;
-    Arrivelong: number;
-    Statut: string;
+    arrivee: stringOrDate;
+    arrivelat: number;
+    arrivelong: number;
+    statut: string;
 
     pays: Entrepot["pays"];
     ville: Entrepot["ville"];

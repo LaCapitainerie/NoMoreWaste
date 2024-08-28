@@ -30,7 +30,8 @@ switch ($requestMethod) {
         ]);
         break;
     case 'POST':
-        handlePostRequest();
+        require_once __DIR__ . "/libraries/method/call.php";
+        callMethod("post", "commercant", ["nom", "adresse", "referent"], getBody());
         break;
 
         

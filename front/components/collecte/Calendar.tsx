@@ -125,8 +125,8 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
 
       const events = response.data.result.map((l) => ({
         title: l.title,
-        start: new Date(l.Depart),
-        end: new Date(l.Arrivee),
+        start: new Date(l.depart),
+        end: new Date(l.arrivee),
         resource: (l as Livraison),
       }));
 
@@ -142,8 +142,8 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
     setSelectedEventCopy(event);
 
     setEndWarehouse({
-      latitude: event.resource?.Arrivelat || 0,
-      longitude: event.resource?.Arrivelong || 0,
+      latitude: event.resource?.arrivelat || 0,
+      longitude: event.resource?.arrivelong || 0,
       id: event.resource?.id || 0,
     } as Entrepot);
 
@@ -175,13 +175,19 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
       return e;
     });
 
+    console.log(args.event.resource?.id);
+    
+
     const response = await axios.put<ResponseCustom<Livraison>>(process.env.NEXT_PUBLIC_API_URL as string + "livraisons.php",
       {
         id: args.event.resource?.id,
-        Depart: toSqlFormat(args.start),
-        Arrivee: toSqlFormat(args.end),
+        depart: toSqlFormat(args.start),
+        arrivee: toSqlFormat(args.end),
       } as Livraison
     );
+
+    console.log(response.data);
+    
 
     setAllEvents(updatedEvents);
   };
@@ -267,8 +273,8 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
               lng: endWarehouse.longitude,
               // hour: selectedEventCopy?.end || "00:00"
             } : {
-              lat: selectedEventCopy?.resource?.Arrivelat || 0,
-              lng: selectedEventCopy?.resource?.Arrivelong || 0,
+              lat: selectedEventCopy?.resource?.arrivelat || 0,
+              lng: selectedEventCopy?.resource?.arrivelong || 0,
               // hour: selectedEventCopy?.end || "00:00"
             }}
 
@@ -406,13 +412,13 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
                       {
                         title: selectedEventCopy.title,
                         id: selectedEventCopy.resource.id,
-                        Depart: toSqlFormat(selectedEventCopy.start),
-                        Arrivee: toSqlFormat(selectedEventCopy.end),
+                        depart: toSqlFormat(selectedEventCopy.start),
+                        arrivee: toSqlFormat(selectedEventCopy.end),
 
                         entrepot: startWarehouse?.id || selectedEventCopy.resource.entrepot,
 
-                        Arrivelat: endWarehouse?.latitude || selectedEventCopy.resource.Arrivelat,
-                        Arrivelong: endWarehouse?.longitude || selectedEventCopy.resource.Arrivelong,
+                        arrivelat: endWarehouse?.latitude || selectedEventCopy.resource.arrivelat,
+                        arrivelong: endWarehouse?.longitude || selectedEventCopy.resource.arrivelong,
                       } as Livraison
                     );
                   };

@@ -9,6 +9,7 @@ function post(string $table, array $body) {
     $values = "";
 
     foreach ($body as $key => $value) {
+        if ($key == "id") continue;
         $fields .= $key . ",";
         $values .= "'" . $value . "',";
     }

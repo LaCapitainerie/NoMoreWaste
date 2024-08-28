@@ -16,14 +16,14 @@ switch ($requestMethod) {
     case 'GET':
         require_once __DIR__ . "/entities/adherent/auth.php";
 
-        if(!auth()) {
-            echo jsonResponse(401, ["Content-Type: application/json"], [
-                "success" => false,
-                "result" => null,
-                "error" => "Unauthorized"
-            ]);
-            break;
-        };
+        // if(!auth()) {
+        //     echo jsonResponse(401, ["Content-Type: application/json"], [
+        //         "success" => false,
+        //         "result" => null,
+        //         "error" => "Unauthorized"
+        //     ]);
+        //     break;
+        // };
 
         require_once __DIR__ . "/entities/adherent/getAll.php";
 

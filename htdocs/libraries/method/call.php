@@ -11,7 +11,7 @@ function callMethod(string $method, string $table, ?array $needed, ?array $body)
         echo jsonResponse(400, ["Content-Type: application/json"], [
             "success" => false,
             "result" => null,
-            "error" => "Bad request"
+            "error" => "Bad request, excepted keys: ".implode(", ", $key)." in body, received: ".implode(", ", array_keys($body))
         ]);
         return;
     };

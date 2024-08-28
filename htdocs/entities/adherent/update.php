@@ -17,7 +17,7 @@ function updateAdherent(array $body){
     $setPart = [];
     $parameters = [];
     foreach ($body as $column => $value) {
-        $setPart[] = "$column = ?";
+        $setPart[] = strtolower($column)." = ?";
         $parameters[] = $value;
     }
     $parameters[] = $id; // Ajoute l'ID à la fin des paramètres
@@ -27,12 +27,12 @@ function updateAdherent(array $body){
     try {
         $pdo = getDatabaseConnection();
 
-        $sql = "UPDATE Adherent SET $setString WHERE id = ?";
+        $sql = "UPDATE adherent SET $setString WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($parameters);
 
         // Vous pouvez récupérer les données mises à jour si nécessaire
-        $stmt = $pdo->prepare("SELECT * FROM Adherent WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT * FROM adherent WHERE id = ?");
         $stmt->execute([$id]);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 

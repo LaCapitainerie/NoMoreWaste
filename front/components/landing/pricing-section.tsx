@@ -71,16 +71,16 @@ export default function PricingSection({ prices }: { prices: Abonnement[] }) {
               <div className="flex items-center">
                 <div className="ml-4">
                   <h2 className="text-base font-semibold leading-7">
-                    {Abo.Nom}
+                    {Abo.nom}
                   </h2>
                   <p className="h-12 text-sm leading-5 text-black/70 dark:text-white">
-                    {Abo.Description}
+                    {Abo.description}
                   </p>
                 </div>
               </div>
 
               <motion.div
-                key={`${Abo.Nom}-${interval}`}
+                key={`${Abo.nom}-${interval}`}
                 initial="initial"
                 animate="animate"
                 variants={{
@@ -103,8 +103,8 @@ export default function PricingSection({ prices }: { prices: Abonnement[] }) {
                 <span className="text-4xl font-bold text-black dark:text-white">
                   $
                   {interval === "year"
-                    ? Abo.PrixAn
-                    : Abo.PrixMois}
+                    ? Abo.prixan
+                    : Abo.prixmois}
                   <span className="text-xs"> / {interval}</span>
                 </span>
               </motion.div>
@@ -115,29 +115,29 @@ export default function PricingSection({ prices }: { prices: Abonnement[] }) {
                   "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2"
                 )}
                 disabled={isLoading}
-                onClick={() => void onSubscribeClick(Abo.Nom)}
+                onClick={() => void onSubscribeClick(Abo.nom)}
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                {(!isLoading || (isLoading && id !== Abo.Nom)) && (
+                {(!isLoading || (isLoading && id !== Abo.nom)) && (
                   <p>Subscribe</p>
                 )}
 
-                {isLoading && id === Abo.Nom && <p>Subscribing</p>}
-                {isLoading && id === Abo.Nom && (
+                {isLoading && id === Abo.nom && <p>Subscribing</p>}
+                {isLoading && id === Abo.nom && (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 )}
               </Button>
 
               <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              {Abo.Perks && Abo.Perks.length > 0 && (
+              {Abo.perks && Abo.perks.length > 0 && (
                 <ul className="flex flex-col gap-2 font-normal">
-                  {Abo.Perks.map((feature, idx: any) => (
+                  {Abo.perks.map((feature, idx: any) => (
                     <li
                       key={idx}
                       className="flex items-center gap-3 text-xs font-medium text-black dark:text-white"
                     >
                       <CheckIcon className="h-5 w-5 shrink-0 rounded-full bg-green-400 p-[2px] text-black dark:text-white" />
-                      <span className="flex">{feature.Nom}</span>
+                      <span className="flex">{feature.nom}</span>
                     </li>
                   ))}
                 </ul>

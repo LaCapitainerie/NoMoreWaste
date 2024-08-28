@@ -9,7 +9,7 @@ function register(string $email, string $password, string $firstname, string $la
     $databaseConnection = getDatabaseConnection();
 
     # Verification des doublons
-    $getAdherentQuery = $databaseConnection->prepare("SELECT COUNT(*) as c FROM adherent WHERE Mail = :email;");
+    $getAdherentQuery = $databaseConnection->prepare("SELECT COUNT(*) as c FROM adherent WHERE mail = :email;");
     $getAdherentQuery->execute([ "email" => htmlspecialchars($email) ]);
     $res = $getAdherentQuery->fetch(PDO::FETCH_ASSOC);
 
@@ -19,10 +19,10 @@ function register(string $email, string $password, string $firstname, string $la
 
     $createUserQuery = $databaseConnection->prepare("
         INSERT INTO adherent(
-            Mail,
-            Password,
-            Prenom,
-            Nom
+            mail,
+            password,
+            prenom,
+            nom
         ) VALUES (
             :email,
             :password,

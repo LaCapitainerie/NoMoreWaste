@@ -56,7 +56,7 @@ export function getColumns(langue: lang): ColumnDef<Adherent>[] {
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Abonnement" />
             ),
-            cell: ({ row }) => row.original.Abonnement || "Standard",
+            cell: ({ row }) => row.original.abonnement || "Standard",
         },
         {
             id: "actions",

@@ -2,10 +2,10 @@ import { Adherent } from "./Adherent"
 
 export type Commercant = {
     id: number
-    Nom: string
-    Adresse: string
-    Referent: string
+    nom: string
+    adresse: string
+    referent: string
 
-    extern_Mail: Adherent['Mail']
-    extern_Ville: Adherent['Ville']
+    extern_Mail: Adherent['mail']
+    extern_Ville: Adherent['ville']
 }

@@ -7,6 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { DataTable } from "../table/data-table";
 import { lang } from "@/lib/utils";
+import { Adherent } from "@/type/Adherent";
 
 export default function CollecteTable({ lang }: { lang: lang }) {
     const [data, setData] = useState<Commercant[]>([]);
@@ -22,5 +23,30 @@ export default function CollecteTable({ lang }: { lang: lang }) {
             });
     });
 
-    return <DataTable columns={getColumns(lang)} data={data} route={"commercants"} langue={lang} />
+    const [referents, setReferents] = useState<Adherent[]>([]);
+
+    useState(() => {
+        try {
+            axios.get<ResponseCustom<Adherent[]>>(process.env.NEXT_PUBLIC_API_URL as string + 'adherents.php',
+            {
+                "headers": {
+                    "Authorization": "Bearer " + (localStorage?.getItem(process.env.NEXT_PUBLIC_TOKEN as string) || "")
+                }
+            }).then((res) => {
+                setReferents(res.data.result);
+            });
+        } catch (error) {
+            
+        }
+        
+    });
+
+    const dropDownReferent = {
+        name: "referent",
+        values: referents,
+        key: "id",
+        value: "nom"
+    }
+
+    return <DataTable columns={getColumns(lang)} data={data} route={"commercants"} langue={lang} additionalInputs={dropDownReferent}/>
 }

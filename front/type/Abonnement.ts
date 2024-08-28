@@ -1,11 +1,11 @@
 import { Perk } from "./Perks";
 
 export interface Abonnement {
-    Nom: typeof abos[number];
-    PrixMois: number;
-    PrixAn: number;
-    Description: string;
-    Perks: Perk[];
+    nom: typeof abos[number];
+    prixmois: number;
+    prixan: number;
+    description: string;
+    perks: Perk[];
 }
 
 export const abos = ["Standard", "Premium", "VIP"];

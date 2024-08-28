@@ -35,7 +35,7 @@ switch ($requestMethod) {
                 "error" => null
             ]);      
         } else {
-            echo jsonResponse(200, ["Content-Type: application/json"], [
+            echo jsonResponse(401, ["Content-Type: application/json"], [
                 "success" => false,
                 "result" => null,
                 "error" => "Bad email or password"

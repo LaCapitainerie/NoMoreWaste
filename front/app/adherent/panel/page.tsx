@@ -36,7 +36,7 @@ export default function DashboardPage() {
         "en-US": "Learn more"
       }[language],
       background: <img alt="adherent_panel_commercant.png" src="/adherent_panel_commercant.png" className="absolute opacity-60" />,
-      className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+      className: "lg:row-start-1 lg:row-end-4 lg:col-start-3 lg:col-end-4",
     },
     {
       Icon: Truck,
@@ -57,7 +57,7 @@ export default function DashboardPage() {
         "en-US": "Learn more"
       }[language],
       background: <img alt="adherent_panel_collecte.png" src="/adherent_panel_collecte.png" className="absolute -top-20 opacity-60" />,
-      className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+      className: "lg:col-start-1 lg:col-end-3 lg:row-start-1 lg:row-end-3",
     },
     {
       Icon: Box,
@@ -74,7 +74,7 @@ export default function DashboardPage() {
         "en-US": "Learn more"
       }[language],
       background: <img alt="adherent_panel_stock.png" src="/adherent_panel_stock.png" className="absolute opacity-60" />,
-      className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+      className: "lg:col-start-1 lg:col-end-3 lg:row-start-3 lg:row-end-4",
     },
   ];
 
@@ -92,7 +92,7 @@ export default function DashboardPage() {
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]">
 
-          <Bento features={features}/>
+          <Bento features={features} className="grid-cols-2 grid-rows-3 xl:grid-cols-3 xl:grid-rows-4"/>
 
         </CardContent>
       </Card>

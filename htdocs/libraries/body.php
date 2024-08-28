@@ -8,7 +8,7 @@ function getBody()
 function checkBody($body, $key)
 {
     foreach ($key as $k) {
-        if (!array_key_exists($k, $body)) {
+        if (!array_key_exists(strtolower($k), $body)) {
             return false;
         }
     }

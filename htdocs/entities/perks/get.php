@@ -6,15 +6,15 @@ function getPerks(){
 
     $databaseConnection = getDatabaseConnection();
     
-    $GetAbonnement = $databaseConnection->query("SELECT * FROM `abonnement` ORDER BY `abonnement`.`PrixMois` ASC");
+    $GetAbonnement = $databaseConnection->query("SELECT * FROM `abonnement` ORDER BY `abonnement`.`prixMois` ASC");
     $Abonnement = $GetAbonnement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($Abonnement as $key => $value) {
 
-        $Getperks = $databaseConnection->query("SELECT Nom, Abonnement FROM perks Where Abonnement = '".$value["Nom"]."'");
+        $Getperks = $databaseConnection->query("SELECT nom, abonnement FROM perks Where abonnement = '".$value["Nom"]."'");
         $Perks = $Getperks->fetchAll(PDO::FETCH_ASSOC);
         
-        $Abonnement[$key]["Perks"] = $Perks;
+        $Abonnement[$key]["perks"] = $Perks;
     }
 
     return $Abonnement;

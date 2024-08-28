@@ -15,6 +15,9 @@ import { ResponseCustom } from "@/type/Reponse";
 // import { useRouter } from "next/navigation";
 import { useSetUserContext } from "@/hooks/user-provider";
 
+import NetlifyWelcomeEmail from "./Email/Signup";
+import { Resend } from 'resend';
+
 export const userAuthSchema = z.object({
   firstname: z.string().optional(),
   lastname: z.string().optional(),
@@ -52,15 +55,38 @@ export function RegisterForm({ className, ...props }: UserAuthFormProps) {
 
       if(response.success){
         toast.success(`Vous êtes connecté en tant que ${data.email}`);
+
+        const resend = new Resend('re_7QrMRn5r_3PmLisggZntnwES9JEqUy8oB');
+
+        const res = await resend.emails.send({
+          from: 'no-reply@no-more-waste.com',
+          to: data.email,
+          subject: 'Bienvenue sur No More Waste',
+          react: <NetlifyWelcomeEmail/>,
+        });
+
+        console.log(res);
+
+        const res2 = await resend.emails.send({
+          from: 'hugo.antreassian@gmail.com',
+          to: data.email,
+          subject: 'Bienvenue sur No More Waste',
+          react: <NetlifyWelcomeEmail/>,
+        });
+
+        console.log(res2);
+        
+        // setUser(response.result);
+        // if (typeof window !== 'undefined') window.location = '/adherent/panel';
+        // push('/adherent/panel');
+
       } else {
         toast.error(response.error || "Une erreur s'est produite", {
           description: "Veuillez réessayer plus tard.",
         });
       };
 
-      setUser(response.result);
-      if (typeof window !== 'undefined') window.location = '/adherent/panel';
-      // push('/adherent/panel');
+      
       
     } catch (error) {
       toast.error("Une erreur s'est produite", {
