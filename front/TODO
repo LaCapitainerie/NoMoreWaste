@@ -9,10 +9,10 @@
 
 - [ ] Bug largeur d'écran lors de l'override du profile haut droite
 
-- [ ] Affichage des détails de la livraison (items, quantités, pdf)
 
 
 
+- [x] Affichage des détails de la livraison (items, quantités, pdf)
 - [x] Update les livraisons lors du changement de durée de temps de celles-ci
 - [x] 401 dans la partie admin, (JWT)
 - [x] Mettre une valeur dynamique pour la position actuelle

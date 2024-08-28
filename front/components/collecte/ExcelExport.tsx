@@ -29,22 +29,6 @@ function createExcelFile(lang: lang = "fr-Fr", livraisons: Livraison[] = []) {
     "en-US": Array.from({ length: 24 }, (_, i) => [`${i % 12 === 0 ? 12 : i % 12}:00 ${i < 12 ? 'AM' : 'PM'}`])
   }[lang]
 
-  const details = [
-    ["", {
-      "fr-Fr": "Entrepot",
-      "en-US": "Warehouse"
-    }[lang], {
-      "fr-Fr": "Destination",
-      "en-US": "Destination"
-    }[lang]],
-
-    ...livraisons.map(livraison => [
-      livraison.title,
-      `${livraison.ville} - ${livraison.depart}`,
-      `${livraison.arrivelat} - ${livraison.arrivelong}`
-    ]),
-  ];
-
   // For each livraison, merge the cells corresponding to the date for the title
   // Exemple : for a livraison starting on Monday and ending on Wednesday, merge the cells corresponding to Monday, Tuesday and Wednesday
   const allMerges:RangeT[] = [];
@@ -99,16 +83,13 @@ function createExcelFile(lang: lang = "fr-Fr", livraisons: Livraison[] = []) {
     "fr-Fr": "Journée entière",
     "en-US": "All Day"
   }[lang] };
-  worksheet["A4"].s = { font: { bold: true, sz: 16 } };
+  worksheet["A4"].s = { font: { bold: true, sz: 11 } };
   worksheet["A4"].s.alignment = { vertical: "center", horizontal: "center" };
 
   allMerges.push({ s: { r: 3, c: 0 }, e: { r: livraisons.length+4, c: 0 } });
   
 
   utils.sheet_add_aoa(worksheet, times, { origin: `A${livraisons.length+5}` });
-
-  // Populate the details section
-  utils.sheet_add_aoa(worksheet, details, { origin: "J2" });
 
   // Ensure the header cell B1 has a value before styling
   const header = `${Month[date.getMonth()]} ${schedule[0].split(" ")[1]} - ${Month[addDays(date, 7).getMonth()]} ${schedule[schedule.length - 1].split(" ")[1]}`;
@@ -166,8 +147,58 @@ function createExcelFile(lang: lang = "fr-Fr", livraisons: Livraison[] = []) {
   // Append the worksheet to the workbook
   utils.book_append_sheet(workbook, worksheet, "Schedule");
 
+
+
+  // For each livraison make a new worksheet, with Depart, Palette, Arrive
+  livraisons.forEach((livraison, index) => {
+    const worksheetZ = utils.aoa_to_sheet([
+      [
+        ...({
+          "fr-Fr": ["Entrepot de depart", "Palettes", "Coordonnée d'arrive"],
+          "en-US": ["Departure warehouse", "Pallets", "Arrival coordinates"]
+        }[lang])
+      ],
+      [livraison.depart, "", livraison.arrivee],
+      ...livraison.stocks.map(stock => ["", `${stock.item} x${stock.removed}`, ""])
+    ]);
+
+    worksheetZ["A1"].s = { font: { bold: true, sz: 12 } };
+    worksheetZ["A1"].s.alignment = { vertical: "center", horizontal: "center" };
+    worksheetZ["A1"].s.border = {
+      right: { style: "thin", color: { auto: 1 } },
+      bottom: { style: "thin", color: { auto: 1 } },
+    };
+
+    worksheetZ["B1"].s = { font: { bold: true, sz: 12 } };
+    worksheetZ["B1"].s.alignment = { vertical: "center", horizontal: "center" };
+    worksheetZ["B1"].s.border = {
+      right: { style: "thin", color: { auto: 1 } },
+      bottom: { style: "thin", color: { auto: 1 } },
+    };
+
+    worksheetZ["C1"].s = { font: { bold: true, sz: 12 } };
+    worksheetZ["C1"].s.alignment = { vertical: "center", horizontal: "center" };
+    worksheetZ["C1"].s.border = {
+      bottom: { style: "thin", color: { auto: 1 } },
+    };
+
+    worksheetZ["!cols"] = [
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+  ];
+
+    utils.book_append_sheet(workbook, worksheetZ, livraison.title);
+  })
+
+
   // Save the workbook to a file
-  writeFile(workbook, `Schedule ${header}.xlsx`);
+  writeFile(workbook, `${
+    {
+      "fr-Fr": "Planning",
+      "en-US": "Schedule"
+    }[lang]
+  } ${header}.xlsx`);
 }
 
 function ExcelDemo({lang, livraisons}: {lang: lang, livraisons: Livraison[]}) {

@@ -116,24 +116,6 @@ const CollecteCalendar = ({langue}: {langue: lang}) => {
   }, [isOpen, user.token]);
 
   useEffect(() => {
-    console.log(selectedEventCopy);
-
-    console.log(startWarehouse ? {
-      lat: startWarehouse.latitude,
-      lng: startWarehouse.longitude,
-      "startwarehouse": startWarehouse.id,
-      // hour: selectedEventCopy?.start || "00:00"
-    } : {
-      lat: selectedEventCopy?.resource?.latitude || 0,
-      lng: selectedEventCopy?.resource?.longitude || 0,
-      "selectedEventCopy": selectedEventCopy?.resource?.entrepot,
-      // hour: selectedEventCopy?.start || "00:00"
-    });
-    
-  }, [isOpen, selectedEventCopy, startWarehouse]);
-
-
-  useEffect(() => {
     const fetchLivraisons = async () => {
       const response = await axios.get<ResponseCustom<Livraison[]>>(process.env.NEXT_PUBLIC_API_URL as string + "livraisons.php",
         {
